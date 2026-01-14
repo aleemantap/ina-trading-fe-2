@@ -9,3 +9,12 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+.bg-ina-red {
+    background-color: #BE0000 !important;
+}
+.text-ina-red {
+    color: #BE0000 !important;
+}
+.border-ina-red {
+    border-color: #BE0000 !important;
+}
