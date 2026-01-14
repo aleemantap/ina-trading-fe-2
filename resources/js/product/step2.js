@@ -1,6 +1,4 @@
-
 import $ from "jquery";
-
 
 export default function Step2() {
     $("#productName").on("input", function () {
@@ -272,7 +270,7 @@ export default function Step2() {
                 imageItem.preview = e.target.result;
                 window.uploadState.primaryProductImages.push(imageItem);
 
-                updateImageSequence(); // 🔥
+                updateImageSequence(); // 
                 renderImages();
             };
 

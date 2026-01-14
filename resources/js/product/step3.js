@@ -4,7 +4,7 @@ import { apiGet } from "@/helpers/apiService";
 
 export default function Step3() {
     reindexPanels();
-
+    loadWarehouse();
     // function toggleMeasurement() {
     //     if ($("#measureYes").is(":checked")) {
     //         $("#measurement-section").slideDown();
@@ -17,7 +17,8 @@ export default function Step3() {
     // }
     //loadWarehouse();
     function loadWarehouse() {
-        const select = $("#warehouse");
+        //warehouse-row cnt-row-wrs
+        const select = $(".cnt-row-wrs").find("#warehouse_select");
 
         select.prop("disabled", true);
         select.empty();
@@ -26,13 +27,13 @@ export default function Step3() {
         apiGet("/warehouses")
             .then((res) => {
                 select.empty();
-                select.append('<option value="">List of Warehouses</option>');
+                // select.append('<option value="">List of Warehouses</option>');
 
                 if (res.responseCode !== "0000") return;
 
                 res.rows.forEach((item) => {
                     select.append(
-                        `<option value="${item.id}">${item.name}</option>`
+                        `<option value="${item.id}">${item.city}</option>`
                     );
                 });
 
@@ -200,11 +201,17 @@ export default function Step3() {
           this.value = "";
           return;
       }
-
-      const $panel = $(this).closest(".panel-utama-model");
-
+ 
+        const $panel = $(this).closest(".panel-utama-model");
+        const imageItem = {
+            file: file,
+            imageId: null,           
+            // panelKe: null,
+        };
       const reader = new FileReader();
       reader.onload = (e) => {
+        // imageItem.preview = e.target.result;
+        window.uploadState.imageProductModelMeasure.push(imageItem);
           $panel
               .find(".image-preview")
               .attr("src", e.target.result)
@@ -213,7 +220,7 @@ export default function Step3() {
           $panel.find(".image-placeholder").addClass("d-none");
           $panel.find(".remove-image").removeClass("d-none");
       };
-
+     
       reader.readAsDataURL(file);
   });
 
@@ -321,14 +328,14 @@ export default function Step3() {
         reindexPanels();
 
         // ambil panel index TERBARU
-        const panelIndex = $newPanel.data("panel-index");
+       // const panelIndex = $newPanel.data("panel-index");
 
         //  SINKRONKAN STATE
-        window.uploadState.imageProductModelMeasure.push({
-            file: null,
-            imageId: null,
-            panelKe: panelIndex,
-        });
+        // window.uploadState.imageProductModelMeasure.push({
+        //     file: null,
+        //     imageId: null,
+        //     panelKe: panelIndex,
+        // });
 
         $("html, body").animate(
             { scrollTop: $newPanel.offset().top - 100 },

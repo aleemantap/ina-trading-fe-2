@@ -4,6 +4,21 @@ body {
     background: #f6f9ff;
     color: #444444;
 }
+/* GLOBAL LOADER */
+/* .global-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.global-loader.d-none {
+    display: none;
+} */
+
 
 .header {
     height: 50px;

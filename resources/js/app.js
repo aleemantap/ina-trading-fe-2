@@ -13,29 +13,30 @@ window.bootstrap = bootstrap;
 //     fileId: null,
 // };
 window.uploadState = {
-    exportDocEligible: {
-        file: null,
-        fileId: null,
+    "exportDocEligible": {
+        "file": null,
+        "fileId": null,
     },
-    documentRegulation: {
-        file: null,
-        fileId: null,
+    "documentRegulation": {
+        "file": null,
+        "fileId": null,
     },
-    primaryProductImages: [
+    "primaryProductImages": [
         {
-            file: File | null,
-            imageId: null,
-            preview: null,
-            sequence: null, // ← URUTAN (1,2,3,...)
+            "file": File | null,
+            "imageId": null,
+            "preview": null,
+            "sequence": null, // ← URUTAN (1,2,3,...)
         },
     ],
-    imageProductModelMeasure: [
-        {
-            file: File | null,
-            imageId: null,
-            panelKe: null,
-        },
-    ],
+    // imageProductModelMeasure: [
+    //     {
+    //         file: File | null,
+    //         imageId: null,
+    //         panelKe: null,
+    //     },
+    // ],
+     imageProductModelMeasure:[]
 };
 
 

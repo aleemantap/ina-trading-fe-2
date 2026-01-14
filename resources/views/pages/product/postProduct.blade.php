@@ -91,7 +91,17 @@
             <div class="d-flex justify-content-start gap-2" style="margin-top:70px;">
                 <button type="button" class="btn btn-secondary-cancel" id="prevBtn">Previous</button>
                 <button type="button" class="btn btn-primary-next" id="nextBtn">Next</button>
-                <button type="button" class="btn btn-primary-next d-none" id="submitBtn">Save & Post</button>
+                {{-- <button type="button" class="btn btn-primary-next d-none" id="submitBtn">
+                    <span class="btn-text">Save & Post</span>
+                    <span class="btn-spinner d-none">
+                        <span class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"></span>
+                    </span>
+                </button> --}}
+                 <button type="button" class="btn btn-primary-next d-none" id="submitBtn">
+                    Save & Post
+                </button>
                 <button type="button" class="btn btn-success-save-to-draft d-none" id="saveToDraft">Save to Draft</button>
             </div>
         </form> 

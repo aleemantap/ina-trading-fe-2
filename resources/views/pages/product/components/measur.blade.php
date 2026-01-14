@@ -77,12 +77,18 @@
                             <label class="form-label fw-semibold">
                                 <span class="text-danger">*</span> Warehouse
                             </label>
-                            <select class="form-select warehouses">
+                            {{-- <select class="form-select warehouses">
                                 <option value="">Choose Warehouse</option>
                                 <option value="7d864086-2467-4561-8be1-897fe639ea6d">
                                     Warehouse-1
                                 </option>
+                            </select> --}}
+                            <select name="warehouses"
+                                    class="form-select required warehouses"
+                                    id="warehouse_select">
+                                <option value="">Loading ...</option>
                             </select>
+
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-semibold">Stock</label>

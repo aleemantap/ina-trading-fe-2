@@ -60,8 +60,21 @@
                 </div>
 
                 {{-- Submit --}}
-                <button type="submit" class="btn w-100" style="background: #474e76; color:#fff;">
+                {{-- <button type="submit" class="btn w-100" style="background: #474e76; color:#fff;">
                     Sign in
+                </button> --}}
+                <button type="submit"
+                        id="loginBtn"
+                        class="btn w-100 d-flex align-items-center justify-content-center gap-2"
+                        style="background: #474e76; color:#fff;">
+
+                    <span class="btn-text">Sign in</span>
+
+                    <span class="btn-spinner d-none">
+                        <span class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"></span>
+                    </span>
                 </button>
             </form>
 
@@ -102,6 +115,16 @@
     </div>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script>
+    $('form').on('submit', function () {
+        const btn = $('#loginBtn');
+
+        btn.prop('disabled', true);
+        btn.find('.btn-text').text('Signing in...');
+        btn.find('.btn-spinner').removeClass('d-none');
+    });
+</script>
 </body>
 </html>
