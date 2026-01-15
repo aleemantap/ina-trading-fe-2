@@ -370,3 +370,11 @@ body {
 .panel-utama-model:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,.08);
 } 
+/* warehouse prifile */
+.ql-container {
+    min-height: 120px;
+}
+
+.ql-editor {
+    min-height: 100px;
+}

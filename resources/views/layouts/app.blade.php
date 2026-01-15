@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="{{ asset('icon.png') }}" type="image/x-icon">
     <title>@yield('title', 'INA FE')</title>
 
     {{-- LOAD VITE --}}

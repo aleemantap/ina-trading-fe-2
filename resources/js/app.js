@@ -4,6 +4,7 @@ import * as bootstrap from "bootstrap";
 window.$ = window.jQuery = $;
 window.bootstrap = bootstrap;
 
+
 // jQuery UI
 // import 'jquery-ui-dist/jquery-ui';
 // import 'jquery-ui-dist/jquery-ui.css';
@@ -29,13 +30,7 @@ window.uploadState = {
             "sequence": null, // ← URUTAN (1,2,3,...)
         },
     ],
-    // imageProductModelMeasure: [
-    //     {
-    //         file: File | null,
-    //         imageId: null,
-    //         panelKe: null,
-    //     },
-    // ],
+  
      imageProductModelMeasure:[]
 };
 
@@ -50,3 +45,7 @@ import "datatables.net-bs5";
 
 // Product scripts
 import "./product/index";
+
+import "./setting/warehouseProfile";
+
+//warehouse profile

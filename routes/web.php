@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\FE\AuthController;
 use App\Http\Controllers\FE\ProductController;
-
+use App\Http\Controllers\FE\OrdersController;
+use App\Http\Controllers\FE\ProfileController;
 
 
 Route::get('/', function () {
@@ -31,6 +32,21 @@ Route::middleware('api.auth')->group(function () {
     ->name('list.product');
     Route::get('/product/{id}', [ProductController::class, 'detail'])
     ->name('product.detail');
+
+    //orders
+    Route::get('/your-orders', [OrdersController::class, 'yourOrders'])
+    ->name('your.orders');
+
+    Route::get('/your-orders/show-orders-detail/{id}', [OrdersController::class, 'showDetail'])
+    ->name('show.detail');
+
+    Route::get('/your-orders/tracking/{id}', [OrdersController::class, 'trackDetail'])
+    ->name('show.track');
+
+    //profile 
+    Route::get('/store-profile', [ProfileController::class, 'index'])
+    ->name('your.profile');
+
 
     
 });

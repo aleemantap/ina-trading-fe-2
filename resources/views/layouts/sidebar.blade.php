@@ -36,17 +36,12 @@
         </div>
 
         {{-- ORDERS --}}
-        <a href="#"
+        <a href="{{ route('your.orders') }}"
            class="nav-link d-flex align-items-center gap-3 px-4 text-secondary">
             <img src="/img/icons/orders.png" width="20">
             <span>Orders</span>
             <span class="badge bg-danger ms-auto">3</span>
         </a>
-
-        
-        
-      
-        
         {{-- <hr> --}}
 
         {{-- <small class="text-uppercase text-muted px-4">Admin</small> --}}
@@ -63,7 +58,7 @@
         </button>
 
         <div class="collapse ps-5" id="menuSetting">
-            <a href="#" class="nav-link text-secondary">Store Profile</a>
+            <a href="{{ route('your.profile') }}" class="nav-link text-secondary">Store Profile</a>
         </div>
     </nav>
 
