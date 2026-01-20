@@ -89,34 +89,107 @@
         <div class="card-header fw-semibold">Warehouse Address</div>
         <div class="card-body">
 
-            @foreach([
-                'Warehouse Name' => 'Tesla Inc',
-                'Address Line 1' => '1028 New Mexico',
-                'Address Line 2' => '',
-                'City' => 'Alto',
-                'Postcode / ZIP' => '22222',
-                'Country' => 'US',
-                'State' => 'New York',
-              
-            ] as $label => $value)
-            <div class="row mb-3">
-                <label class="col-md-3 col-form-label">{{ $label }}</label>
+           <div class="row mb-3">
+                <label for="warehouse_name" class="col-md-3 col-form-label">
+                    Warehouse Name
+                </label>
                 <div class="col-md-9">
-                    <input class="form-control" value="{{ $value }}">
+                    <input
+                        type="text"
+                        id="warehouse_name"
+                        name="warehouse_name"
+                        class="form-control"
+                        value="{{ old('warehouse_name') }}"
+                    >
+                </div>
+            </div>           
+
+            <div class="row mb-3">
+                <label for="address_line" class="col-md-3 col-form-label">
+                    Address Line
+                </label>
+                <div class="col-md-9">
+                    <input
+                        type="text"
+                        id="address_line"
+                        name="address_line"
+                        class="form-control"
+                        value="{{ old('address_line') }}"
+                    >
                 </div>
             </div>
-            @endforeach
+
+            <div class="row mb-3">
+                <label for="city" class="col-md-3 col-form-label">
+                    City
+                </label>
+                <div class="col-md-9">
+                    <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        class="form-control"
+                        value="{{ old('city') }}"
+                    >
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="postcode" class="col-md-3 col-form-label">
+                    Postcode / ZIP
+                </label>
+                <div class="col-md-9">
+                    <input
+                        type="text"
+                        id="postcode"
+                        name="postcode"
+                        class="form-control"
+                        value="{{ old('postcode') }}"
+                    >
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="country" class="col-md-3 col-form-label">
+                    Country
+                </label>
+                <div class="col-md-9">
+                    <input
+                        type="text"
+                        id="country"
+                        name="country"
+                        class="form-control"
+                        value="{{ old('country') }}"
+                    >
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="state" class="col-md-3 col-form-label">
+                    State
+                </label>
+                <div class="col-md-9">
+                    <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        class="form-control"
+                        value="{{ old('state') }}"
+                    >
+                </div>
+            </div> 
+
 
             <div class="row mb-3">
                 <label class="col-md-3 col-form-label">Locate on Maps</label>
                 <div class="col-md-9">
-                    <input class="form-control" placeholder="">
+                    <input class="form-control" placeholder="" id="location-warehouse">
                 </div>
             </div>
 
-        </div>
+           </div>
         <div class="card-footer text-end bg-light">
-            <button class="btn btn-primary px-4">Save</button>
+            <button class="btn btn-primary px-4" id="submitBtnWarehouseProfile">Save</button>
         </div>
     </div>
 

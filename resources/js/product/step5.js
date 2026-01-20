@@ -487,18 +487,7 @@ export default function Step5() {
     
 }
 
-
-// $("#submitBtn").on("click", async function () {
-//     const $btn = $(this);
-//     const originalHtml = $btn.html();
-
-//     $btn.prop("disabled", true);
-//     $btn.html(`
-//             <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-//         `);
-//     });
-
-$("#submitBtn___").on("click", async function () {
+$("#submitBtn").on("click", async function () {
     const $btn = $(this);
     const originalHtml = $btn.html();
     // $btn.find(".btn-text").text("Processing...");
@@ -855,7 +844,7 @@ $("#submitBtn___").on("click", async function () {
         // }
         const uploadTasks = [];
 
-        // 1️⃣ Kumpulkan task upload
+        // 1️ Kumpulkan task upload
         for (const [key, item] of Object.entries(window.uploadState)) {
             if (!item?.file || item.fileId) continue;
 
@@ -865,12 +854,12 @@ $("#submitBtn___").on("click", async function () {
             });
         }
 
-        // 2️⃣ Upload paralel
+        // 2 Upload paralel
         const uploadResults = await Promise.all(
             uploadTasks.map((task) => apiUploadFile(task.file))
         );
 
-        // 3️⃣ Mapping hasil upload ke payload
+        // 3 Mapping hasil upload ke payload
         uploadResults.forEach((res, index) => {
             const { key } = uploadTasks[index];
 
@@ -1038,7 +1027,7 @@ $("#submitBtn___").on("click", async function () {
     }
 });
 
-$("#submitBtn").on("click", async function () {
+$("#submitBtnxxx").on("click", async function () {
 
 
 try {

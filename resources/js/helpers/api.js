@@ -105,7 +105,7 @@ api.interceptors.response.use(
             window.location.href = "/login";
             return Promise.reject(data);
         }
-        console.log("status", status);
+         console.log("status", status);
          console.log("data", data);
         // API GENERAL ERROR
         if (data?.responseCode === "999999") {

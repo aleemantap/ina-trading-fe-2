@@ -1,8 +1,15 @@
 
 import $ from "jquery";
+// import api from "@/helpers/api";
+import {
+    apiGet,
+    apiPost,
+    apiUploadFile,
 
-// import { Editor } from "@tiptap/core";
-// import StarterKit from "@tiptap/starter-kit";
+} from "@/helpers/apiService";
+
+// import api from "@/helpers/api";
+
 
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
@@ -52,6 +59,53 @@ $(function () {
 //              el.querySelector(".ql-editor").innerHTML;
 //      });
 //  }
+
+    $("#submitBtnWarehouseProfile").on("click", async function () {
+        const $btn = $(this);
+        const originalHtml = $btn.html();
+
+        $btn.prop("disabled", true);
+        $btn.html(`
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        `);
+        //
+        //5.54829,95.323753,
+        var ls = $("#location-warehouse").val();
+        const [latitude, longitude] = ls.split(",");
+
+        try {
+            const datax = {
+                "address": $("#address_line").val(),
+                "country": $("#country").val(),
+                "province": $("#state").val(),
+                "city": $("#city").val(),
+                "postalCode": $("#postcode").val(),
+                "latitude": latitude,
+                "longitude": longitude,
+                "warehouseType": $("#warehouse_name").val(),
+            };
+            console.log(datax)
+
+            // const res = await api.post("/warehouses", datax, {
+                // timeout: 60000,
+            // });
+            const res = await apiPost("/warehouses", datax);
+
+            if (res.responseCode !== "0000") {
+                alert("Submit gagal");
+                return;
+            }
+
+            alert("Submit berhasil");
+            //window.location.href = "/post-product";
+        } catch (e) {
+            console.error(e);
+            // alert("Terjadi kesalahan");
+        } finally {
+            $btn.prop("disabled", false);
+            $btn.html(originalHtml);
+        }
+    })
 
 
 });

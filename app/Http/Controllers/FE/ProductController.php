@@ -43,4 +43,12 @@ class ProductController extends Controller
         }
     }
 
+    public function detail(
+        Request $request
+      
+    ) {
+       
+       return view('pages.product.detail');
+    }
+
 }

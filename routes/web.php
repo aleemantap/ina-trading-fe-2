@@ -6,6 +6,7 @@ use App\Http\Controllers\FE\AuthController;
 use App\Http\Controllers\FE\ProductController;
 use App\Http\Controllers\FE\OrdersController;
 use App\Http\Controllers\FE\ProfileController;
+use App\Http\Controllers\FE\IncomeController;
 
 
 Route::get('/', function () {
@@ -42,6 +43,15 @@ Route::middleware('api.auth')->group(function () {
 
     Route::get('/your-orders/tracking/{id}', [OrdersController::class, 'trackDetail'])
     ->name('show.track');
+
+
+    //inocome dan report
+    Route::get('/income-balance', [IncomeController::class, 'incomeBalance'])
+    ->name('income.balance');
+    Route::get('/income-report', [IncomeController::class, 'incomeReport'])
+    ->name('income.report');
+  
+  
 
     //profile 
     Route::get('/store-profile', [ProfileController::class, 'index'])

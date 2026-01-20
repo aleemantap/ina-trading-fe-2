@@ -46,6 +46,28 @@
 
         {{-- <small class="text-uppercase text-muted px-4">Admin</small> --}}
 
+        {{-- incame & report --}}
+        <button class="nav-link d-flex justify-content-between align-items-center px-4 text-secondary"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuIncome">
+            <div class="d-flex align-items-center gap-3">
+                <img src="/img/icons/globe2.png" width="20">
+                <span>Income & Report</span>
+            </div>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="collapse ps-5" id="menuIncome">
+            <a href="{{ route('income.balance') }}"
+                class="nav-link {{ request()->routeIs('income.balance') ? 'text-danger fw-semibold' : 'text-secondary' }}">
+                   Income
+            </a>
+
+            <a href="{{ route('income.report') }}"
+                class="nav-link {{ request()->routeIs('income.report') ? 'text-danger fw-semibold' : 'text-secondary' }}">
+                    Report
+            </a>
+        </div>
+
         {{-- SETTINGS --}}
         <button class="nav-link d-flex justify-content-between align-items-center px-4 text-secondary"
                 data-bs-toggle="collapse"
