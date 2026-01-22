@@ -12,11 +12,11 @@ class IncomeController extends Controller
      */
     public function incomeBalance()
     {
-        return view('pages.income.incomeBalance');
+        return view('pages.income.withdraw.index');
     }
 
     public function incomeReport(){
-        return view('pages.income.incomeReport');
+        return view('pages.income.report.index');
     }
 
     // public function listProduct(
