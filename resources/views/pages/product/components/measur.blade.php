@@ -27,7 +27,7 @@
             <div class="row mb-3 align-items-center">
                 <label class="col-sm-3 col-form-label fw-bold">Weight</label>
                 <div class="col-sm-6">
-                    <input type="number" class="form-control" id="Weight">
+                    <input type="text" class="form-control decimalInput" id="Weight">
                 </div>
                 <div class="col-sm-3">
                     <select class="form-select" id="WeightType">
@@ -42,9 +42,9 @@
             <div class="row mb-3 align-items-center">
                 <label class="col-sm-3 col-form-label fw-bold">Dimensions</label>
                 <div class="col-sm-9 d-flex gap-2">
-                    <input class="form-control text-center" placeholder="L" id="DimensionsL">
-                    <input class="form-control text-center" placeholder="W" id="DimensionsW">
-                    <input class="form-control text-center" placeholder="H" id="DimensionsH">
+                    <input class="form-control text-center decimalInput" placeholder="L" id="DimensionsL">
+                    <input class="form-control text-center decimalInput" placeholder="W" id="DimensionsW">
+                    <input class="form-control text-center decimalInput" placeholder="H" id="DimensionsH">
                     {{-- <span class="input-group-text">CM</span> --}}
                     <select class="form-select" id="DimensionType">
                         <option value="CM">CM</option>
@@ -66,7 +66,7 @@
                     </select>
                 </div>
                 <div class="col-sm-6">
-                    <input type="number" class="form-control" placeholder="price" id="Price">
+                    <input type="text" class="form-control" placeholder="price" id="Price">
                 </div>
             </div>
             {{-- Warehouse --}}
@@ -144,7 +144,7 @@
                         </select>
                     </div>
                     <div class="col-sm-6">
-                        <input type="number" id="promotionPrice" class="form-control" placeholder="price">
+                        <input type="text" id="promotionPrice" class="form-control decimalInput" placeholder="price">
                     </div>
                 </div>
                 <div class="row mb-4 align-items-center">
@@ -177,7 +177,7 @@
                         Package Weight
                     </label>
                     <div class="col-sm-5">
-                        <input type="number" id="packagingWeight" class="form-control">
+                        <input type="text" id="packagingWeight" class="form-control decimalInput">
                     </div>
                         <div class="col-sm-3">
                         <select class="form-select" id="packagingWeightType">
@@ -190,9 +190,9 @@
                 <div class="row mb-3 align-items-center">
                     <label class="col-sm-4 col-form-label fw-medium">Package Dimensions</label>
                     <div class="col-sm-8 d-flex gap-2">
-                        <input id="packagingLength" class="form-control text-center" placeholder="L">
-                        <input id="packagingWidth" class="form-control text-center" placeholder="W">
-                        <input id="packagingHeight" class="form-control text-center" placeholder="H">
+                        <input id="packagingLength" class="form-control text-center decimalInput" placeholder="L">
+                        <input id="packagingWidth" class="form-control text-center decimalInput" placeholder="W">
+                        <input id="packagingHeight" class="form-control text-center decimalInput" placeholder="H">
                         {{-- <span class="input-group-text">CM</span> --}}
                         <select class="form-select" id="packagingDimensionType">
                             <option value="CM">CM</option>

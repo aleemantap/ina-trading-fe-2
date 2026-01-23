@@ -175,13 +175,13 @@
             <div class="row">
                 <label class="col-md-3 col-form-label">Warranty Duration</label>
                 <div class="col-md-4">
-                    <input type="number" id="WarantyDuration" class="form-control">
+                    <input type="text" id="WarantyDuration" class="form-control decimalInput" placeholder="Waranty Duration">
                 </div>
                 <div class="col-md-5">
                     <select class="form-select" id="durationType">
-                        <option>DAYS</option>
-                        <option>MONTH</option>
-                        <option>YEARS</option>
+                        <option value="DAYS">DAYS</option>
+                        <option value="MONTH">MONTH</option>
+                        <option value="YEARS">YEARS</option>
                     </select>
                 </div>
             </div>

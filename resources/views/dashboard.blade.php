@@ -6,51 +6,91 @@
 <div class="p-4">
 
     {{-- Welcome --}}
-    <h1 class="h3 mb-1 fw-bold">Welcome Back, {{ session('auth_user.name') }}</h1>
+    <h3 class="mb-1 fw-semibold">Welcome Back, {{ session('auth_user.name') }}</h3>
     <p class="text-muted mb-4">
         Here is the information about all your orders and products
     </p>
-
     {{-- Stats Group --}}
     <div class="d-flex flex-wrap gap-3 mb-4">
-        {{-- Card 1: Total products --}}
-        <div class="card flex-fill position-relative" style="min-width: 220px;">
-            <div class="position-absolute top-0 end-0 p-2 bg-light rounded m-2">
-                <i class="fas fa-box"></i>
-            </div>
-            <div class="card-body">
-                <p class="h4 fw-bold mb-0">100</p>
-                <p class="text-muted mb-1">Total products</p>
-                <p class="text-success small mb-0">▲ 3.1 +0.49% this week</p>
-            </div>
-        </div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body"  style="width: 50rem;">
+                <div class="row">
+                    <!-- Total products -->
+                    <div class="col-md-4">
+                       <div class="box-stat p-3  border-start  position-relative">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="h4 fw-bold mb-0">100</p>
+                                    <p class="text-muted mb-1">Total products</p>
+                                </div>
+                                <div class="icon-box">
+                                    <img src="{{ asset('img/icons/case.png') }}" width="18">
+                                </div>
+                            </div>
+                            <div style="color:#7C8DB5;" class="small mt-2 d-flex align-items-center gap-2">
+                                <img src="{{ asset('img/icons/up.png') }}" width="16">
+                                <span class="fw-medium">3.1</span>
+                                <span style="margin-left:10px;">+0.49% this week</span>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-4">
+                       <div class="box-stat p-3 border-start position-relative">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="h4 fw-bold mb-0">10,827</p>
+                                    <p class="text-muted mb-1">Total buyers</p>
+                                </div>
+                                <div class="icon-box">
+                                    <img src="{{ asset('img/icons/check.png') }}" width="18">
+                                </div>
+                            </div>
+                            <div style="color:#7C8DB5;" class="small mt-2 d-flex align-items-center gap-2">
+    
+                                <img src="{{ asset('img/icons/down2.png') }}" width="16">
 
-        {{-- Card 2: Total buyers --}}
-        <div class="card flex-fill position-relative" style="min-width: 220px;">
-            <div class="position-absolute top-0 end-0 p-2 bg-light rounded m-2">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="card-body">
-                <p class="h4 fw-bold mb-0">10,827</p>
-                <p class="text-muted mb-1">Total buyers</p>
-                <p class="text-danger small mb-0">▼ 2.56 -0.91% this week</p>
-            </div>
-        </div>
+                                <span class="fw-medium">2.56</span>
 
-        {{-- Card 3: Refunded --}}
-        <div class="card flex-fill position-relative" style="min-width: 220px;">
-            <div class="position-absolute top-0 end-0 p-2 bg-light rounded m-2">
-                <i class="fas fa-undo"></i>
-            </div>
-            <div class="card-body">
-                <p class="h4 fw-bold mb-0">957</p>
-                <p class="text-muted mb-1">Refunded</p>
-                <p class="text-success small mb-0">▲ 7.2 +1.51% this week</p>
+                                <span style="margin-left:10px;">-0.91% this week</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="col-md-4">
+                       <div class="box-stat p-3 border-start position-relative">
+
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="h4 fw-bold mb-0">957</p>
+                                    <p class="text-muted mb-1">Refunded</p>
+                                </div>
+
+                                <div class="icon-box">
+                                    <img src="{{ asset('img/icons/arrow-right.png') }}" width="18">
+                                </div>
+                            </div>
+                            <div style="color:#7C8DB5;" class="small mt-2 d-flex align-items-center gap-2">
+    
+                                <img src="{{ asset('img/icons/up.png') }}" width="16">
+
+                                <span class="fw-medium">7.2</span>
+
+                                <span style="margin-left:10px;">+1.51% this week</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
             </div>
         </div>
     </div>
 
-    <h1 class="h3 mb-3 fw-bold">Orders Analytics</h1>
+    {{-- <h1 class="h3 mb-3 fw-bold">Orders Analytics</h1> --}}
 
      <div class="row g-4">
 
@@ -64,7 +104,7 @@
                         <option>Weekly</option>
                     </select>
                 </div>
-                <canvas id="ordersChart" height="150"></canvas>
+                <canvas id="ordersChart" height="256"></canvas>
             </div>
         </div>
 
@@ -140,21 +180,49 @@
 </div>
 @endsection
 
+@push('styles') 
+<style>
+.box-stat {
+    /* background: #f8f9fa; */
+    min-width: 220px;
+    height: 100%;
+}
 
-@section('scripts')
+.icon-box {
+    background: #fff;
+    width: 30px;     
+    height: 30px;     
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%; 
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+</style>
+@endpush
+
+@push('scripts')
 {{-- Chart.js --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  
+    document.addEventListener("DOMContentLoaded", function () {
     // ===== Orders Line Chart =====
-    const ctxOrders = document.getElementById('ordersChart').getContext('2d');
-    const ordersChart = new Chart(ctxOrders, {
+        const ctxOrders = document.getElementById('ordersChart').getContext('2d');
+        const ordersChart = 
+        new Chart(ctxOrders, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            labels: [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            ],
             datasets: [
                 {
                     label: 'Foreign orders',
-                    data: [18, 25, 60, 45, 40, 38, 65],
+                    data: [18, 25, 40, 45, 50, 38, 65, 70, 60, 75, 80, 90],
                     borderColor: 'rgba(66, 133, 244, 1)',
                     backgroundColor: 'rgba(66, 133, 244, 0.1)',
                     tension: 0.4,
@@ -164,7 +232,7 @@
                 },
                 {
                     label: 'Domestic orders',
-                    data: [30, 35, 55, 65, 60, 55, 50],
+                    data: [30, 35, 50, 65, 60, 55, 50, 58, 62, 70, 75, 85],
                     borderColor: 'rgba(255, 159, 28, 1)',
                     backgroundColor: 'rgba(255, 159, 28, 0.1)',
                     tension: 0.4,
@@ -182,30 +250,38 @@
             },
             interaction: { mode: 'nearest', intersect: false },
             scales: {
-                y: { beginAtZero: true, ticks: { stepSize: 20 } }
+               y: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        stepSize: 10
+                    }
+                }
             }
         }
     });
 
-    // ===== Earnings Doughnut Chart =====
-    const ctxEarnings = document.getElementById('earningsChart').getContext('2d');
-    const earningsChart = new Chart(ctxEarnings, {
-        type: 'doughnut',
-        data: {
-            labels: ['Domestic', 'Foreign'],
-            datasets: [{
-                data: [65, 35],
-                backgroundColor: ['#FF9F1C', '#4285F4'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            cutout: '70%',
-            plugins: {
-                legend: { display: false }
+        // ===== Earnings Doughnut Chart =====
+        const ctxEarnings = document.getElementById('earningsChart').getContext('2d');
+        const earningsChart = new Chart(ctxEarnings, {
+            type: 'doughnut',
+            data: {
+                labels: ['Domestic', 'Foreign'],
+                datasets: [{
+                    data: [65, 35],
+                    backgroundColor: ['#FF9F1C', '#4285F4'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: { display: false }
+                }
             }
-        }
-    });
+        });
+    
+    })
 </script>
-@endsection
+@endpush

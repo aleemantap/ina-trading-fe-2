@@ -22,15 +22,16 @@ window.uploadState = {
         "file": null,
         "fileId": null,
     },
-    "primaryProductImages": [
-        {
-            "file": File | null,
-            "imageId": null,
-            "preview": null,
-            "sequence": null, // ← URUTAN (1,2,3,...)
-        },
-    ],
+    // "primaryProductImages": [
+    //     {
+    //         "file": File | null,
+    //         "imageId": null,
+    //         "preview": null,
+    //         "sequence": null, // ← URUTAN (1,2,3,...)
+    //     },
+    // ],
   
+     "primaryProductImages": [],
      imageProductModelMeasure:[]
 };
 
@@ -42,10 +43,11 @@ import "../css/custom.css";
 
 // Plugin jQuery
 import "datatables.net-bs5";
-
+import "./helpers/utils";
 // Product scripts
 import "./product/index";
 
 import "./setting/warehouseProfile";
+
 
 //warehouse profile
