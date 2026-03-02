@@ -34,6 +34,10 @@ Route::middleware('api.auth')->group(function () {
     Route::get('/product/{id}', [ProductController::class, 'detail'])
     ->name('product.detail');
 
+    Route::get('/product-edit/{id}', [ProductController::class, 'edit'])
+    ->name('product.edit');
+
+
     //orders
     Route::get('/your-orders', [OrdersController::class, 'yourOrders'])
     ->name('your.orders');

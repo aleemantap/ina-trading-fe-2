@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="{{ asset('icon.png') }}" type="image/x-icon">
     <title>@yield('title', 'INA FE')</title>
-
+    @stack('before-scripts')
     {{-- LOAD VITE --}}
     @vite(['resources/js/app.js'])
     @stack('styles')
@@ -31,7 +31,7 @@
     
 </head>
 
-<body class="app">
+<body class="app" data-page="{{ $page ?? '' }}">
     <div id="page-loader">
         <div class="loader-box">
             <div class="spinner-border text-primary" role="status"></div>
@@ -56,6 +56,7 @@
 
 {{-- JS BIASA TANPA jQuery --}}
 <script>
+
 window.API_BASE = '{{ config("services.api.host") }}';
 window.csrf_token = '{{ csrf_token() }}';
 window.API_TOKEN = '{{ session("api_token") }}';
@@ -67,6 +68,7 @@ window.App = {
     token: '{{ session("api_token") }}',
     csrf: '{{ csrf_token() }}',
 };
+window.API_KEY_GOOGLE = '{{ config("services.api.google") }}';
 
 
 document.addEventListener('DOMContentLoaded', function () {

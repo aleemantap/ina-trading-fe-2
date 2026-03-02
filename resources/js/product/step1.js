@@ -4,13 +4,13 @@ import { apiGet } from "@/helpers/apiService";
 
 
 export default function Step1() {
-
+ 
+    const appData = window.APP_DATA || {};
     let currentStep = 1;
     const totalSteps = 5;
     loadMainCategories();
 
-   
-
+    
     function showStep(step) {
         $(".step").removeClass("active");
         $(".step-" + step).addClass("active");
@@ -136,114 +136,14 @@ export default function Step1() {
     });
     // INIT — INI PENTING
     showStep(1);
+   
+   
     $("#mainCategory").on("change", function () {
         const categoryId = $(this).val();
-        const subCategory = $("#subCategory");
-        subCategory.prop("disabled", true);
-        subCategory.empty();
-        subCategory.append('<option value="">Loading sub category...</option>');
-        if (!categoryId) {
-            subCategory.html('<option value="">Sub category</option>');
-            return;
-        }
-        apiGet(`/sub/${categoryId}/categories`)
-            .then((res) => {
-                subCategory.empty();
-                subCategory.append('<option value="">Sub category</option>');
-
-                if (res.responseCode !== "0000") return;
-
-                res.rows.forEach((item) => {
-                    subCategory.append(
-                        `<option value="${item.id}">${item.name}</option>`
-                    );
-                });
-
-                subCategory.prop("disabled", false);
-            })
-            .catch(() => {
-                subCategory.html(
-                    '<option value="">Failed to load sub category</option>'
-                );
-            });;
-
-        // $.ajax({
-        //     url: window.API_BASE + "/sub/" + categoryId + "/categories",
-        //     type: "GET",
-        //     headers: {
-        //         Authorization: "Bearer " + window.API_TOKEN,
-        //         "Reference-Number": "REF20230708100000001",
-        //         "Channel-Id": "WEB",
-        //         "Request-Time": formatDateAndTime(),
-        //     },
-        //     success: function (res) {
-        //         subCategory.empty();
-        //         subCategory.append('<option value="">Sub category</option>');
-        //         if (res.responseCode !== "0000") return;
-        //         res.rows.forEach((item) => {
-        //             subCategory.append(
-        //                 `<option value="${item.id}">${item.name}</option>`
-        //             );
-        //         });
-        //         subCategory.prop("disabled", false);
-        //     },
-        //     // error: function () {
-        //     //     subCategory.html(
-        //     //         '<option value="">Failed to load sub category</option>'
-        //     //     );
-        //     // }
-        //     error: function (xhr) {
-        //         if (xhr.status === 401 || xhr.status === 403) {
-        //             $.post("/force-logout", {
-        //                 _token: window.csrf_token,
-        //             }).always(function () {
-        //                 alert("Session anda habis. Silakan login kembali.");
-        //                 window.location.href = "/login";
-        //             });
-        //             return;
-        //         }
-        //         alert("Terjadi kesalahan.");
-        //     },
-        // });
+        loadSubCategories(categoryId);
     });
-    // function loadMainCategories() {
-    //     $.ajax({
-    //         url: window.API_BASE + "/categories",
-    //         type: "GET",
-    //         headers: {
-    //             // Authorization: 'Bearer {{ session("api_token") }}',
-    //             Authorization: "Bearer " + window.API_TOKEN,
 
-    //             "Reference-Number": "REF20230708100000001",
-    //             "Channel-Id": "WEB",
-    //             "Request-Time": formatDateAndTime(),
-    //         },
-    //         success: function (res) {
-    //             const select = $("#mainCategory");
-    //             select.empty();
-    //             select.append('<option value="">List of Main category</option>');
-    //             if (res.responseCode !== "0000") return;
-    //             res.rows.forEach((item) => {
-    //                 select.append(
-    //                     `<option value="${item.id}">${item.name}</option>`
-    //                 );
-    //             });
-    //         },
-            
-    //         error: function (xhr) {
-    //             if (xhr.status === 401 || xhr.status === 403) {
-    //                 $.post("/force-logout", {
-    //                     _token: window.csrf_token,
-    //                 }).always(function () {
-    //                     alert("Session anda habis emang. Silakan login kembali.");
-    //                     window.location.href = "/login";
-    //                 });
-    //                 return;
-    //             }
-    //             alert("Terjadi kesalahan.");
-    //         },
-    //     });
-    // }
+
     function loadMainCategories() {
         const select = $("#mainCategory");
 
@@ -267,6 +167,13 @@ export default function Step1() {
                 });
 
                 select.prop("disabled", false);
+
+              
+                if (appData.mode === "edit" && appData.product) {
+                    //console.log("TES=",appData.product)
+                    setEditCategory(appData.product);
+                }
+
             })
             .catch(() => {
                 // optional, interceptor sudah handle auth error
@@ -274,5 +181,59 @@ export default function Step1() {
                     '<option value="">Failed to load category</option>'
                 );
             });
+    }
+
+   
+    async function setEditCategory(product) {
+        // if (!product?.subCategory?.length) return;
+        // console.log("product.subCategory", product);
+        const subCategory = product.subCategory;
+        const mainCategoryId = subCategory.category.id;
+        const subCategoryId = subCategory.id;
+
+        // Set main category TANPA trigger change
+        $("#mainCategory").val(mainCategoryId);
+
+        // Load sub category dan set selected
+        await loadSubCategories(mainCategoryId, subCategoryId);
+    }
+
+    async function loadSubCategories(categoryId, selectedId = null) {
+        const subCategory = $("#subCategory");
+
+        subCategory.prop("disabled", true);
+        subCategory.empty();
+        subCategory.append('<option value="">Loading sub category...</option>');
+
+        if (!categoryId) {
+            subCategory.html('<option value="">Sub category</option>');
+            return;
+        }
+
+        try {
+            const res = await apiGet(`/sub/${categoryId}/categories`);
+
+            subCategory.empty();
+            subCategory.append('<option value="">Sub category</option>');
+
+            if (res.responseCode !== "0000") return;
+
+            res.rows.forEach((item) => {
+                subCategory.append(
+                    `<option value="${item.id}">${item.name}</option>`,
+                );
+            });
+
+            subCategory.prop("disabled", false);
+
+            //  SET VALUE JIKA ADA
+            if (selectedId) {
+                subCategory.val(selectedId);
+            }
+        } catch (e) {
+            subCategory.html(
+                '<option value="">Failed to load sub category</option>',
+            );
+        }
     }
 }

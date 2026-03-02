@@ -4,12 +4,14 @@ namespace App\Http\Controllers\FE;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ProductApiService;
-
+use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     /**
      * Halaman post product
      */
+    
+
     public function postProduct()
     {
         return view('pages.product.postProduct');
@@ -47,8 +49,60 @@ class ProductController extends Controller
         Request $request
       
     ) {
+
+       $id = $request->id; 
        
        return view('pages.product.detail');
     }
+
+    public function edit(Request $request, ProductApiService $productApi)
+    {
+        $id = $request->id;
+
+        try {
+
+            $response = $productApi->fetchProductById($id);
+            $product = $response['data'] ?? null;
+
+            $response2 = $productApi->fetchProductByIdReview($id);
+            $product2 = $response2['data'] ?? null;
+
+            if($product)
+            {
+                return view('pages.product.edit', compact('product'));
+            }
+            else if($product2)
+            {
+                $product = $product2;
+                return view('pages.product.edit', compact('product'));
+            }
+            else
+            {
+                 return redirect()
+                    ->route('list.product')
+                    ->with('error', 'Product tidak ditemukan.');
+            }
+
+            // if (!$product) {
+            //     return redirect()
+            //         ->route('list.product')
+            //         ->with('error', 'Product tidak ditemukan.');
+            // }
+            // return view('pages.product.edit', compact('product'));
+
+        } catch (\Throwable $e) {
+
+            Log::error('Failed to fetch product detail', [
+                'product_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()
+                ->route('list.product')
+                ->with('error', 'Product tidak ditemukan atau gagal dimuat.');
+        }
+    }
+
+        
 
 }

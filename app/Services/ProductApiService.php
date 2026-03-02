@@ -43,4 +43,48 @@ class ProductApiService
 
         return $response->json();
     }
+
+    public function fetchProductById(string $id): array
+    {
+        $token = Session::get('api_token');
+
+        $response = Http::withHeaders([
+            'Content-Type'      => 'application/json',
+            'Accept'            => 'application/json',
+            'Reference-Number'  => 'REF20230708100000001',
+            'Channel-Id'        => 'WEB',
+            'Request-Time'      => now()->format('Y-m-d H:i:s'),
+            'Authorization'     => $token ? "Bearer {$token}" : null,
+        ])->get("{$this->baseUrl}/product/{$id}");
+        /** @var Response $response */
+        if ($response->failed()) {
+            throw new \Exception(
+                $response->json('message') ?? 'Failed to fetch product detail'
+            );
+        }
+
+        return $response->json();
+    }
+
+     public function fetchProductByIdReview(string $id): array
+    {
+        $token = Session::get('api_token');
+
+        $response = Http::withHeaders([
+            'Content-Type'      => 'application/json',
+            'Accept'            => 'application/json',
+            'Reference-Number'  => 'REF20230708100000001',
+            'Channel-Id'        => 'WEB',
+            'Request-Time'      => now()->format('Y-m-d H:i:s'),
+            'Authorization'     => $token ? "Bearer {$token}" : null,
+        ])->get("{$this->baseUrl}/product/review/{$id}");
+        /** @var Response $response */
+        if ($response->failed()) {
+            throw new \Exception(
+                $response->json('message') ?? 'Failed to fetch product detail'
+            );
+        }
+
+        return $response->json();
+    }
 }

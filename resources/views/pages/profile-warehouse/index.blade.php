@@ -1,5 +1,24 @@
 @extends('layouts.app')
 
+@push('styles')
+     <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    #map {
+      height: 400px;
+      margin-top: 10px;
+      display: none;
+    }
+    input {
+      width: 300px;
+      padding: 6px;
+    }
+  </style>
+@endpush
+
 @section('content')
 <div class="container py-4">
 
@@ -80,7 +99,7 @@
             </form>
         </div>
         <div class="card-footer text-end bg-light">
-            <button class="btn btn-primary px-4">Save</button>
+            <button class="btn px-4" style="background-color: #7047EB; color:#EAEAEA">Save</button>
         </div>
     </div>
 
@@ -89,109 +108,180 @@
         <div class="card-header fw-semibold">Warehouse Address</div>
         <div class="card-body">
 
-           <div class="row mb-3">
-                <label for="warehouse_name" class="col-md-3 col-form-label">
-                    Warehouse Name
-                </label>
-                <div class="col-md-9">
-                    <input
-                        type="text"
-                        id="warehouse_name"
-                        name="warehouse_name"
-                        class="form-control"
-                        value="{{ old('warehouse_name') }}"
-                    >
-                </div>
-            </div>           
+                <div class="row mb-3">
+                    <label for="warehouse_name" class="col-md-3 col-form-label">
+                        Warehouse Name
+                    </label>
+                    <div class="col-md-9">
+                        <input
+                            type="text"
+                            id="warehouse_name"
+                            name="warehouse_name"
+                            class="form-control"
+                            value="{{ old('warehouse_name')   }} INA"
+                        >
+                    </div>
+                </div>           
 
-            <div class="row mb-3">
-                <label for="address_line" class="col-md-3 col-form-label">
-                    Address Line
-                </label>
-                <div class="col-md-9">
-                    <input
-                        type="text"
-                        id="address_line"
-                        name="address_line"
-                        class="form-control"
-                        value="{{ old('address_line') }}"
-                    >
+                <div class="row mb-3">
+                    <label for="address_line" class="col-md-3 col-form-label">
+                        Address Line
+                    </label>
+                    <div class="col-md-9">
+                        <input
+                            type="text"
+                            id="address_line"
+                            name="address_line"
+                            class="form-control"
+                            value="{{ old('address_line') }}Jl. Sudirman"
+                        >
+                    </div>
                 </div>
-            </div>
 
-            <div class="row mb-3">
-                <label for="city" class="col-md-3 col-form-label">
-                    City
-                </label>
-                <div class="col-md-9">
-                    <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        class="form-control"
-                        value="{{ old('city') }}"
-                    >
+                <div class="row mb-3">
+                    <label for="city" class="col-md-3 col-form-label">
+                        City
+                    </label>
+                    <div class="col-md-9">
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            class="form-control"
+                            value="{{ old('city') }}Bandung"
+                        >
+                    </div>
                 </div>
-            </div>
 
-            <div class="row mb-3">
-                <label for="postcode" class="col-md-3 col-form-label">
-                    Postcode / ZIP
-                </label>
-                <div class="col-md-9">
-                    <input
-                        type="text"
-                        id="postcode"
-                        name="postcode"
-                        class="form-control"
-                        value="{{ old('postcode') }}"
-                    >
+                <div class="row mb-3">
+                    <label for="postcode" class="col-md-3 col-form-label">
+                        Postcode / ZIP
+                    </label>
+                    <div class="col-md-9">
+                        <input
+                            type="text"
+                            id="postcode"
+                            name="postcode"
+                            class="form-control"
+                            value="{{ old('postcode') }}2322"
+                        >
+                    </div>
                 </div>
-            </div>
 
-            <div class="row mb-3">
-                <label for="country" class="col-md-3 col-form-label">
-                    Country
-                </label>
-                <div class="col-md-9">
-                    <input
-                        type="text"
-                        id="country"
-                        name="country"
-                        class="form-control"
-                        value="{{ old('country') }}"
-                    >
+                <div class="row mb-3">
+                    <label for="country" class="col-md-3 col-form-label">
+                        Country
+                    </label>
+                    <div class="col-md-9">
+                        <input
+                            type="text"
+                            id="country"
+                            name="country"
+                            class="form-control"
+                            value="{{ old('country') }}Indonesia"
+                        >
+                    </div>
                 </div>
-            </div>
 
-            <div class="row mb-3">
-                <label for="state" class="col-md-3 col-form-label">
-                    State
-                </label>
-                <div class="col-md-9">
-                    <input
-                        type="text"
-                        id="state"
-                        name="state"
-                        class="form-control"
-                        value="{{ old('state') }}"
-                    >
+                <div class="row mb-3">
+                    <label for="state" class="col-md-3 col-form-label">
+                        State
+                    </label>
+                    <div class="col-md-9">
+                        <input
+                            type="text"
+                            id="state"
+                            name="state"
+                            class="form-control"
+                            value="{{ old('state') }}Jawa Barat"
+                        >
+                    </div>
+                </div> 
+                <div class="row mb-3">
+                    <label class="col-md-3 col-form-label">Locate on Maps</label>
+                    <div class="col-md-9">
+                        <input class="form-control" placeholder="" value="-6.9147,107.6098" id="location-warehouse">
+                    </div>
                 </div>
-            </div> 
-
-
-            <div class="row mb-3">
-                <label class="col-md-3 col-form-label">Locate on Maps</label>
-                <div class="col-md-9">
-                    <input class="form-control" placeholder="" id="location-warehouse">
+                <div class="row mb-3">
+                    <div class="col-md-12" id="map">
+                    </div>
                 </div>
-            </div>
 
            </div>
         <div class="card-footer text-end bg-light">
-            <button class="btn btn-primary px-4" id="submitBtnWarehouseProfile">Save</button>
+            <button class="btn px-4" style="background-color: #7047EB; color:#EAEAEA" id="submitBtnWarehouseProfile">Save</button>
         </div>
     </div>
 
 </div>
 @endsection
+@push('scripts')
+<script>
+ 
+//   let map;
+//   let marker;
+
+//   function initMap() {
+//     const center = { lat: -6.200000, lng: 106.816666 }; // Jakarta
+
+//     map = new google.maps.Map(document.getElementById("map"), {
+//       zoom: 10,
+//       center: center,
+//     });
+
+//     map.addListener("click", function(event) {
+//       const latitude = event.latLng.lat();
+//       const longitude = event.latLng.lng();
+
+//       //isi input
+//       //document.getElementById("lat").value = latitude;
+//       //document.getElementById("lng").value = longitude;
+//       document.getElementById("location-warehouse").value= latitude +","+longitude;
+//       // pindahkan / buat marker
+//       if (marker) {
+//         marker.setPosition(event.latLng);
+//       } else {
+//         marker = new google.maps.Marker({
+//           position: event.latLng,
+//           map: map,
+//         });
+//       }
+//     });
+//   }
+</script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY_KAMU&callback=initMap" async defer></script> --}}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  let map;
+  let marker;
+
+  document.getElementById("location-warehouse").addEventListener("change", function () {
+    const value = this.value.trim();
+
+    if (!value.includes(",")) return;
+
+    const parts = value.split(",");
+    const lat = parseFloat(parts[0]);
+    const lng = parseFloat(parts[1]);
+
+    if (isNaN(lat) || isNaN(lng)) return;
+
+    document.getElementById("map").style.display = "block";
+
+    if (!map) {
+      map = L.map("map").setView([lat, lng], 15);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors"
+      }).addTo(map);
+
+      marker = L.marker([lat, lng]).addTo(map);
+    } else {
+      map.setView([lat, lng], 15);
+      marker.setLatLng([lat, lng]);
+    }
+  });
+</script>
+@endpush

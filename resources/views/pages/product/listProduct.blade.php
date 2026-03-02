@@ -6,6 +6,21 @@
 <div class="container-fluid p-4">
 
     <h4 class="mb-4">Hello,  {{ session('auth_user.name') ?? 'PT Contoh Seller' }}</h4>
+    
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    
     <div class="d-flex justify-content-between align-items-center">
         
         <ul class="product-tabs" id="productTabs">
@@ -248,6 +263,14 @@ window.addEventListener('load', function () {
                                 onclick="confirmDelete('${id}')">
                                     <i class="bi bi-trash"></i>
                                     Delete
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/product-edit/${id}"
+                                class="dropdown-item text-success d-flex align-items-center gap-2"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                    Edit
                                 </a>
                             </li>
                         </ul>

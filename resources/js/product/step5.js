@@ -10,6 +10,72 @@ import api from "@/helpers/api";
 
 
 export default function Step5() {
+
+    function initEditStep5(product) {
+        const  fileId =product.fileId 
+        const  isEligibleToExport = product.isEligibleToExport
+
+
+        const yesRadio = document.getElementById("eligible_yes");
+        const noRadio = document.getElementById("eligible_no");
+        const uploadSection = document.getElementById("upload-section");
+        const fileList = document.getElementById("file-list");
+
+        // Set Radio
+        if (isEligibleToExport) {
+            yesRadio.checked = true;
+            uploadSection.style.display = "block";
+        } else {
+            noRadio.checked = true;
+            uploadSection.style.display = "none";
+        }
+        // 2 Tampilkan Nama File (hanya 1 file)
+        if (fileId && isEligibleToExport) {
+            // ambil nama file saja
+            const fileName = fileId.split("/").pop();
+
+            fileList.innerHTML = `
+        <li class="d-flex align-items-center gap-2">
+            <span>${fileName}</span>
+            <button type="button" 
+                    id="remove-file" 
+                    class="btn btn-sm btn-danger">
+                Remove
+            </button>
+        </li>
+    `;
+
+            // event remove
+            const removeBtn = document.getElementById("remove-file");
+            removeBtn.addEventListener("click", function () {
+                fileList.innerHTML = "";
+                document.getElementById("export-upload").value = "";
+            });
+        }
+
+        // Toggle ketika user klik radio
+        document.querySelectorAll('input[name="eligible"]').forEach((radio) => {
+            radio.addEventListener("change", function () {
+                const show = this.value === "1";
+                uploadSection.style.display = show ? "block" : "none";
+
+                if (!show) {
+                    fileList.innerHTML = "";
+                    document.getElementById("export-upload").value = "";
+                }
+            });
+        });
+
+
+    }
+
+    const appData = window.APP_DATA || {};
+    if (appData.mode === "edit" && appData.product) {
+         initEditStep5(appData.product);
+    }
+
+
+
     function toggleUploadSection() {
         const eligible = $('input[name="eligible"]:checked').val();
         if (eligible === "1") {
@@ -41,76 +107,7 @@ export default function Step5() {
         $("#export-upload").click();
     });
 
-  
-   
-
-    // $("#export-upload").on("change", async function () {
-    //     const file = this.files[0];
-    //     if (!file) return;
-
-    //     // reset tampilan
-    //     $("#file-list").empty();
-
-    //     try {
-    //         // HIT API UPLOAD
-    //         const res = await apiUploadFile(file);
-
-    //         if (res.responseCode !== "0000") {
-    //             alert("Upload gagal");
-    //             return;
-    //         }
-
-    //         //  SIMPAN FILE ID (STATE)
-    //         window.uploadStateEligible.fileId = res.data.fileId;
-
-    //         console.log("FILE ID:", window.uploadStateEligible.fileId);
-
-    //         // tampilkan di UI
-    //         const li = `
-    //         <li class="d-flex justify-content-between align-items-center
-    //                    border rounded px-2 py-1 mb-1 small">
-    //             <span class="text-truncate">📎 ${file.name}</span>
-    //             <button type="button"
-    //                 class="btn btn-sm btn-link text-danger btn-remove-file">
-    //                 ✖
-    //             </button>
-    //         </li>
-    //     `;
-
-    //         $("#file-list").append(li);
-    //     } catch (err) {
-    //         console.error(err);
-    //         alert("Gagal upload file");
-    //     }
-
-    //     // reset input supaya bisa upload file sama lagi
-    //     $(this).val("");
-    // });
-
-    // $("[data-upload]").on("change", function () {
-    //     const key = $(this).data("upload");
-    //     const file = this.files[0];
-    //     if (!file) return;
-
-    //     window.uploadState[key].file = file;
-    //     window.uploadState[key].fileId = null;
-
-    //     $(`#file-list-${key}`).html(`
-    //     <li class="d-flex justify-content-between align-items-center
-    //                border rounded px-2 py-1 mb-1 small">
-    //         <span class="text-truncate">📎 ${file.name}</span>
-    //         <button type="button"
-    //             class="btn btn-sm btn-link text-danger btn-remove-file"
-    //             data-upload="${key}">
-    //             ✖
-    //         </button>
-    //     </li>
-    // `);
-
-    //     this.value = "";
-    // });
-
-      $("#export-upload").on("change",  function () {
+    $("#export-upload").on("change",  function () {
 
           const key = $(this).data("upload");
           const file = this.files[0];
@@ -123,30 +120,24 @@ export default function Step5() {
 
            window.uploadState[key].file = file;
            window.uploadState[key].fileId = null;
-        //     console.log("key=", key);
-        //       console.log("file=", file);
-        //    console.log("tew=", window.uploadState[key].file);
-        
-             
-         
-
-              // tampilkan di UI
-              const li = `
-                <li class="d-flex justify-content-between align-items-center
-                        border rounded px-2 py-1 mb-1 small">
-                    <span class="text-truncate">📎 ${file.name}</span>
-                    <button type="button" data-upload="`+key+`"
-                        class="btn btn-sm btn-link text-danger btn-remove-file-export">
-                        ✖
-                    </button>
-                </li>
+       
+            // tampilkan di UI
+            const li = `
+            <li class="d-flex justify-content-between align-items-center
+                    border rounded px-2 py-1 mb-1 small">
+                <span class="text-truncate">📎 ${file.name}</span>
+                <button type="button" data-upload="`+key+`"
+                    class="btn btn-sm btn-link text-danger btn-remove-file-export">
+                    ✖
+                </button>
+            </li>
             `;
 
               $("#file-list").append(li);
           
 
-          // reset input supaya bisa upload file sama lagi
-          $(this).val("");
+           // reset input supaya bisa upload file sama lagi
+           $(this).val("");
     });
 
 

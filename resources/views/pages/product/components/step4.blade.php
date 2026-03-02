@@ -45,7 +45,7 @@
             </h5>
 
             <div class="row mb-3">
-                <label class="col-md-3 col-form-label">Cable Length</label>
+                <label class="col-md-3 col-form-label" data-param="Cable Length">Cable Length</label>
                 <div class="col-md-9">
                     <input type="text" id="CableLength" class="form-control">
                 </div>
@@ -53,27 +53,26 @@
             <div class="row mb-3">
                 <label class="col-md-3 col-form-label">Voltage</label>
                 <div class="col-md-9">
-                    <input type="text" id="Voltage" class="form-control">
+                    <input type="text" id="Voltage" class="form-control" data-param="Voltage">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label class="col-md-3 col-form-label">Data Transfer Rate</label>
                 <div class="col-md-9">
-                    <input type="text" id="DataTransferRate" class="form-control">
+                    <input type="text" id="DataTransferRate" class="form-control" data-param="Data Transfer rate">
                 </div>
             </div>
 
             <div class="row">
                 <label class="col-md-3 col-form-label">Display Size</label>
                 <div class="col-md-9">
-                    <input type="text" id="DisplaSize" class="form-control">
+                    <input type="text" id="DisplaSize" class="form-control" data-param="Display Size">
                 </div>
             </div>
 
         </div>
-    </div>
-
+    </div> 
     {{-- ================= Compliance Information ================= --}}
     <div class="card mb-4">
         <div class="card-body">
@@ -95,29 +94,7 @@
                     <input type="text" id="countryOfOrigin" class="form-control">
                 </div>
             </div>
-            {{-- <div class="row mb-2">
-                <label class="col-md-3 col-form-label">
-                    Dangerous Good Regulation? <span class="text-danger">*</span>
-                </label>
-
-                <div class="col-md-9 d-flex gap-4 align-items-center">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio"
-                            name="dangerous_goods" id="dg_yes" value="1" checked>
-                        <label class="form-check-label" for="dg_yes">Yes</label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio"
-                            name="dangerous_goods" id="dg_no" value="0">
-                        <label class="form-check-label" for="dg_no">Not Available</label>
-                    </div>
-
-                    <div id="dg-upload" class="ms-3">
-                        <input type="file"  id="document-regulation-upload" data-upload="documentRegulation" class="form-control">
-                    </div>
-                </div>
-            </div> --}}
+            
             <div class="row mb-2">
                 <label class="col-md-3 col-form-label">
                     Dangerous Good Regulation? <span class="text-danger">*</span>

@@ -4,7 +4,7 @@ import { apiGet } from "@/helpers/apiService";
 export default function Step3() {
     reindexPanels();
     loadWarehouse();
-    //===================== 
+    //=====================
 
     function initEditStep3(product) {
         if (!product.productModels || !product.productModels.length) return;
@@ -105,7 +105,6 @@ export default function Step3() {
         initEditStep3(appData.product);
     }
 
-
     //loadWarehouse();
     function loadWarehouse() {
         //warehouse-row cnt-row-wrs
@@ -123,7 +122,7 @@ export default function Step3() {
 
                 res.rows.forEach((item) => {
                     select.append(
-                        `<option value="${item.id}">${item.city}</option>`
+                        `<option value="${item.id}">${item.city}</option>`,
                     );
                 });
 
@@ -132,7 +131,7 @@ export default function Step3() {
             .catch(() => {
                 // optional, interceptor sudah handle auth error
                 select.html(
-                    '<option value="">Failed to load warehouse</option>'
+                    '<option value="">Failed to load warehouse</option>',
                 );
             });
     }
@@ -210,26 +209,31 @@ export default function Step3() {
 
     // pilih gambar → preview
 
-  $(document).on("click", ".image-upload-box, .image-placeholder", function () { //alay
-      const $panel = $(this).closest(".panel-utama-model");
-      const input = $panel.find(".imageInputStep3")[0];
+    $(document).on(
+        "click",
+        ".image-upload-box, .image-placeholder",
+        function () {
+            //alay
+            const $panel = $(this).closest(".panel-utama-model");
+            const input = $panel.find(".imageInputStep3")[0];
 
-      if (!input) {
-          console.error("imageInputStep3 tidak ditemukan");
-          return;
-      }
+            if (!input) {
+                console.error("imageInputStep3 tidak ditemukan");
+                return;
+            }
 
-      input.click();
-  });
-  $(document).on("change", ".imageInputStep3", function () {
-      const file = this.files?.[0];
-      if (!file) return;
+            input.click();
+        },
+    );
+    $(document).on("change", ".imageInputStep3", function () {
+        const file = this.files?.[0];
+        if (!file) return;
 
-      if (!file.type.startsWith("image/")) {
-          alert("File harus berupa gambar");
-          this.value = "";
-          return;
-      }
+        if (!file.type.startsWith("image/")) {
+            alert("File harus berupa gambar");
+            this.value = "";
+            return;
+        }
 
         const $panel = $(this).closest(".panel-utama-model");
         const imageItem = {
@@ -237,34 +241,34 @@ export default function Step3() {
             imageId: null,
             // panelKe: null,
         };
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        // imageItem.preview = e.target.result;
-        window.uploadState.imageProductModelMeasure.push(imageItem);
-          $panel
-              .find(".image-preview")
-              .attr("src", e.target.result)
-              .removeClass("d-none");
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            // imageItem.preview = e.target.result;
+            window.uploadState.imageProductModelMeasure.push(imageItem);
+            $panel
+                .find(".image-preview")
+                .attr("src", e.target.result)
+                .removeClass("d-none");
 
-          $panel.find(".image-placeholder").addClass("d-none");
-          $panel.find(".remove-image").removeClass("d-none");
-      };
+            $panel.find(".image-placeholder").addClass("d-none");
+            $panel.find(".remove-image").removeClass("d-none");
+        };
 
-      reader.readAsDataURL(file);
-  });
+        reader.readAsDataURL(file);
+    });
 
     // hapus preview
-   $(document).on("click", ".remove-image", function (e) {
-       e.stopPropagation();
+    $(document).on("click", ".remove-image", function (e) {
+        e.stopPropagation();
 
-       const $panel = $(this).closest(".panel-utama-model");
+        const $panel = $(this).closest(".panel-utama-model");
 
-       $panel.find(".image-preview").attr("src", "").addClass("d-none");
+        $panel.find(".image-preview").attr("src", "").addClass("d-none");
 
-       $panel.find(".image-placeholder").removeClass("d-none");
-       $panel.find(".remove-image").addClass("d-none");
-       $panel.find(".imageInputStep3").val("");
-   });
+        $panel.find(".image-placeholder").removeClass("d-none");
+        $panel.find(".remove-image").addClass("d-none");
+        $panel.find(".imageInputStep3").val("");
+    });
 
     /* ================= ADD MEASUREMENT ================= */
     $(".btn-add-more2").on("click", function () {
@@ -328,7 +332,7 @@ export default function Step3() {
 
         $("html, body").animate(
             { scrollTop: $newPanel.offset().top - 100 },
-            300
+            300,
         );
     });
 
@@ -382,4 +386,3 @@ export default function Step3() {
         });
     }
 }
-

@@ -36,6 +36,7 @@ return [
     ],
     'api' => [
              'host' => env('API_URL').env('API_VERSION'),
+             'google' => env('API_GOOGLE'),
     ],
 
 ];

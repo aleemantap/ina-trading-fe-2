@@ -1,6 +1,174 @@
 import $ from "jquery";
+// import { renderImages } from "./image-utils";
+
+ function renderImages() {
+     const images = window.uploadState.primaryProductImages;
+     console.log("images", images);
+     $("#bigThumb").html(
+         images[0]
+             ? `
+            <div class="position-relative h-100 w-100">
+                <img src="${images[0].preview}" class="img-fluid h-100 w-100 object-fit-cover">
+                <span class="badge bg-dark position-absolute bottom-0 start-0 m-1">
+                    #${images[0].sequence}
+                </span>
+                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="0">x</button>
+            </div>
+            `
+             : "+",
+     );
+
+     $("#multiImageUpload .smallThumb").each(function (i) {
+         const idx = i + 1;
+         if (images[idx]) {
+             $(this).html(`
+                <div class="position-relative h-100 w-100">
+                    <img src="${images[idx].preview}" class="img-fluid h-100 w-100 object-fit-cover">
+                    <span class="badge bg-dark position-absolute bottom-0 start-0 m-1">
+                        #${images[idx].sequence}
+                    </span>
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="${idx}">x</button>
+                </div>
+            `);
+         } else {
+             $(this).html("+");
+         }
+     });
+
+     $("#extraThumbs").empty();
+     if (images.length > 4) {
+         images.slice(4).forEach((img, i) => {
+             $("#extraThumbs").append(`
+                <div class="position-relative border rounded" style="width:100px;height:100px">
+                    <img src="${
+                        img.preview
+                    }" class="img-fluid h-100 w-100 object-fit-cover">
+                    <span class="badge bg-dark position-absolute bottom-0 start-0 m-1">
+                        #${img.sequence}
+                    </span>
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="${
+                        i + 4
+                    }">x</button>
+                </div>
+            `);
+         });
+     }
+ }
+
+ function initEditStep2(product) {
+     // =====================
+     // BASIC INFO
+     // =====================
+     // console.log("te", product.productImages);
+     $("#productName").val(product.name || "");
+     $("#productNameCount").text((product.productName?.length || 0) + "/150");
+
+     $("#productDesc").val(product.description || "");
+     $("#descCount").text((product.description?.length || 0) + "/3000");
+
+     // =====================
+     // PRE ORDER
+     // =====================
+     if (product.isPreOrder) {
+         $("#preYes").prop("checked", true);
+         $("#preOrderDays")
+             .prop("disabled", false)
+             .val(product.preOrderDay || "");
+     } else {
+         $("#preNo").prop("checked", true);
+     }
+
+     // =====================
+     // BRAND NEW
+     // =====================
+     if (product.isNew) {
+         $('input[name="brand_new"][value="1"]').prop("checked", true);
+     } else {
+         $('input[name="brand_new"][value="0"]').prop("checked", true);
+     }
+
+     // =====================
+     // KEYWORDS
+     // =====================
+     if (product.productKeyWords && product.productKeyWords.length) {
+         $("#keywordsContainer").empty();
+
+         product.productKeyWords.forEach((keyword) => {
+             $("#keywordsContainer").append(`
+                <div class="keyword-item position-relative mb-2">
+                    <input type="text"
+                           name="keywords[]"
+                           class="form-control keyword-input"
+                           maxlength="30"
+                           value="${keyword}"
+                           style="padding-right: 50px;">
+                    <small class="text-muted position-absolute"
+                           style="right: 10px; top: 50%; transform: translateY(-50%);">
+                           ${keyword.length}/30
+                    </small>
+                </div>
+            `);
+         });
+     }
+
+     // =====================
+     // FEATURES
+     // =====================
+     if (product.productFeatures && product.productFeatures.length) {
+         $("#featuresContainer").empty();
+
+         product.productFeatures.forEach((feature) => {
+             $("#featuresContainer").append(`
+                <div class="feature-item position-relative mb-2">
+                    <input type="text"
+                           name="features[]"
+                           class="form-control feature-input"
+                           maxlength="200"
+                           value="${feature}"
+                           style="padding-right: 60px;">
+                    <small class="text-muted position-absolute"
+                           style="right: 10px; top: 50%; transform: translateY(-50%);">
+                           ${feature.length}/200
+                    </small>
+                </div>
+            `);
+         });
+
+         // renderImages();
+     }
+
+     // =====================
+     // PRIMARY IMAGES (EXISTING)
+     // =====================
+    
+     if (product.productImages && product.productImages.length) {
+         window.uploadState.primaryProductImages = product.productImages.map(
+             (img, index) => ({
+                 file: null,
+                 imageId: img.id,
+                 preview: img.imageId,
+                 sequence: img.sequence ?? index + 1,
+             }),
+         );
+
+         renderImages();
+     }
+ }
 
 export default function Step2() {
+    // ===============================
+    // EDIT MODE INIT
+    // ===============================
+
+    
+
+    const appData = window.APP_DATA || {};
+
+    if (appData.mode === "edit" && appData.product) {
+      
+        initEditStep2(appData.product);
+    }
+
     $("#productName").on("input", function () {
         $("#productNameCount").text(this.value.length + "/150");
     });
@@ -72,75 +240,12 @@ export default function Step2() {
         $("#descCount").text(this.value.length + "/3000");
     });
     // Multi Image Upload logic
-    /*
-    let images = [];
-    // Render thumbnails
-    function renderImages() {
-        // Big thumb
-        $("#bigThumb").html(
-            images[0]
-                ? `
-                <div class="position-relative h-100 w-100">
-                    <img src="${images[0]}" class="img-fluid h-100 w-100 object-fit-cover">
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="0">x</button>
-                </div>
-            `
-                : "+"
-        );
-        // Small thumbs (1,2,3)
-        $("#multiImageUpload .smallThumb").each(function (i) {
-            let idx = i + 1;
-            if (images[idx]) {
-                $(this).html(`
-                        <div class="position-relative h-100 w-100">
-                            <img src="${images[idx]}" class="img-fluid h-100 w-100 object-fit-cover">
-                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="${idx}">x</button>
-                        </div>
-                    `);
-            } else {
-                $(this).html("+");
-            }
-        });
-        // Extra thumbs
-        $("#extraThumbs").html("");
-        if (images.length > 4) {
-            for (let i = 4; i < images.length; i++) {
-                $("#extraThumbs").append(`
-                        <div class="position-relative border rounded" style="width:100px; height:100px;">
-                            <img src="${images[i]}" class="img-fluid h-100 w-100 object-fit-cover">
-                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="${i}">x</button>
-                        </div>
-                    `);
-            }
+    $("#bigThumb, .smallThumb").on("click", function (e) {
+        if ($(e.target).hasClass("removeImage")) return;
+        if ($(this).find("img").length === 0) {
+            $("#imageInput").trigger("click");
         }
-    }
-    // Handle files
-    function handleFiles(files) {
-        for (let file of files) {
-           
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                images.push(e.target.result);
-                renderImages();
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    
-
-    // Klik upload (+) → trigger input file
-    // Hanya trigger upload jika klik langsung di div kosong (+)
-    $("#bigThumb, .smallThumb")
-        .off("click")
-        .on("click", function (e) {
-            // Jangan trigger jika klik tombol remove
-            if ($(e.target).hasClass("removeImage")) return;
-            // Hanya trigger upload jika div kosong (tampil '+')
-            if ($(this).text().trim() === "+") {
-                $("#imageInput").trigger("click");
-            }
-        });
+    });
     // Tombol "Add More" selalu trigger input
     $("#addMoreImages")
         .off("click")
@@ -152,91 +257,8 @@ export default function Step2() {
         handleFiles(this.files);
         $(this).val("");
     });
-    // Hapus gambar
-    $(document)
-        .off("click", ".removeImage")
-        .on("click", ".removeImage", function (e) {
-            e.stopPropagation(); // penting supaya klik tombol x tidak trigger upload
-            let index = parseInt($(this).attr("data-index"));
-            if (!isNaN(index)) {
-                images.splice(index, 1); // hapus gambar dari array
-                renderImages(); // rerender semua thumbnails
-            }
-    }); 
-    */
+
    
-
-   $("#bigThumb, .smallThumb").on("click", function (e) {
-       if ($(e.target).hasClass("removeImage")) return;
-       if ($(this).find("img").length === 0) {
-           $("#imageInput").trigger("click");
-       }
-   });
-     // Tombol "Add More" selalu trigger input
-     $("#addMoreImages")
-         .off("click")
-         .on("click", function () {
-             $("#imageInput").trigger("click");
-         });
-     // Pilih file
-     $("#imageInput").on("change", function () {
-         handleFiles(this.files);
-         $(this).val("");
-     });
-   
-    function renderImages() {
-        const images = window.uploadState.primaryProductImages;
-
-        $("#bigThumb").html(
-            images[0]
-                ? `
-            <div class="position-relative h-100 w-100">
-                <img src="${images[0].preview}" class="img-fluid h-100 w-100 object-fit-cover">
-                <span class="badge bg-dark position-absolute bottom-0 start-0 m-1">
-                    #${images[0].sequence}
-                </span>
-                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="0">x</button>
-            </div>
-            `
-                : "+"
-        );
-
-        $("#multiImageUpload .smallThumb").each(function (i) {
-            const idx = i + 1;
-            if (images[idx]) {
-                $(this).html(`
-                <div class="position-relative h-100 w-100">
-                    <img src="${images[idx].preview}" class="img-fluid h-100 w-100 object-fit-cover">
-                    <span class="badge bg-dark position-absolute bottom-0 start-0 m-1">
-                        #${images[idx].sequence}
-                    </span>
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="${idx}">x</button>
-                </div>
-            `);
-            } else {
-                $(this).html("+");
-            }
-        });
-
-        $("#extraThumbs").empty();
-        if (images.length > 4) {
-            images.slice(4).forEach((img, i) => {
-                $("#extraThumbs").append(`
-                <div class="position-relative border rounded" style="width:100px;height:100px">
-                    <img src="${
-                        img.preview
-                    }" class="img-fluid h-100 w-100 object-fit-cover">
-                    <span class="badge bg-dark position-absolute bottom-0 start-0 m-1">
-                        #${img.sequence}
-                    </span>
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 removeImage" data-index="${
-                        i + 4
-                    }">x</button>
-                </div>
-            `);
-            });
-        }
-    }
 
     const MAX_IMAGES = 8;
     const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -270,7 +292,7 @@ export default function Step2() {
                 imageItem.preview = e.target.result;
                 window.uploadState.primaryProductImages.push(imageItem);
 
-                updateImageSequence(); // 
+                updateImageSequence(); //
                 renderImages();
             };
 
@@ -292,6 +314,4 @@ export default function Step2() {
         updateImageSequence(); //
         renderImages();
     });
-
-   
 }
