@@ -45,15 +45,54 @@ class ProductController extends Controller
         }
     }
 
-    public function detail(
-        Request $request
-      
-    ) {
+    public function detail(Request $request, ProductApiService $productApi)
+    {
+        $id = $request->id;
 
-       $id = $request->id; 
-       
-       return view('pages.product.detail');
+        try {
+
+            $response = $productApi->fetchProductById($id);
+            $product = $response['data'] ?? null;
+
+            $response2 = $productApi->fetchProductByIdReview($id);
+            $product2 = $response2['data'] ?? null;
+
+            if($product)
+            {
+                return view('pages.product.detail', compact('product'));
+            }
+            else if($product2)
+            {
+                $product = $product2;
+                return view('pages.product.detail', compact('product'));
+            }
+            else
+            {
+                 return redirect()
+                    ->route('list.product')
+                    ->with('error', 'Product tidak ditemukan.');
+            }
+
+            // if (!$product) {
+            //     return redirect()
+            //         ->route('list.product')
+            //         ->with('error', 'Product tidak ditemukan.');
+            // }
+            // return view('pages.product.edit', compact('product'));
+
+        } catch (\Throwable $e) {
+
+            Log::error('Failed to fetch product detail', [
+                'product_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()
+                ->route('list.product')
+                ->with('error', 'Product tidak ditemukan atau gagal dimuat.');
+        }
     }
+
 
 
     public function detailMobile(
