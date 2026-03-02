@@ -37,7 +37,10 @@ Route::middleware('api.auth')->group(function () {
     Route::get('/product-edit/{id}', [ProductController::class, 'edit'])
     ->name('product.edit');
 
+    Route::get('/product-detail/{id}', [ProductController::class, 'detailMobile'])
+    ->name('product.detailM');
 
+    
     //orders
     Route::get('/your-orders', [OrdersController::class, 'yourOrders'])
     ->name('your.orders');

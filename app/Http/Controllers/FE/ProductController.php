@@ -55,6 +55,45 @@ class ProductController extends Controller
        return view('pages.product.detail');
     }
 
+
+    public function detailMobile(
+        Request $request,
+        ProductApiService $productApi
+      
+    ) {
+
+        $id = $request->id;
+
+        try {
+
+            $response = $productApi->fetchProductById($id);
+            $product = $response['data'] ?? null;           
+
+            if (!$product) {
+                return redirect()
+                    ->route('list.product')
+                    ->with('error', 'Product tidak ditemukan.');
+            }
+            return view('pages.product.detailM', compact('product'));
+
+        } catch (\Throwable $e) {
+
+            Log::error('Failed to fetch product detail', [
+                'product_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()
+                ->route('list.product')
+                ->with('error', 'Product tidak ditemukan atau gagal dimuat.');
+        }
+       
+   
+    }
+
+
+    
+
     public function edit(Request $request, ProductApiService $productApi)
     {
         $id = $request->id;

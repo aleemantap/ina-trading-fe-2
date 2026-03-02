@@ -273,6 +273,14 @@ window.addEventListener('load', function () {
                                     Edit
                                 </a>
                             </li>
+                            <li>
+                                <a href="/product-detail/${id}"
+                                class="dropdown-item text-success d-flex align-items-center gap-2"
+                                >
+                                    <i class="bi bi-info-circle-fill"></i>
+                                    Detail
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
