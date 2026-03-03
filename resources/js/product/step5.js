@@ -537,7 +537,7 @@ export default function Step5() {
                      height: Number(height),
                      dimensionType: dimensionType,
                      isMeasurement: measureYes,
-                     imageId: imageIdTemp,
+                     imageId: imageIdTemp, 
 
                      isConfigurePromotionPrice: isConfigurePromotionPrice,
                      promotionPrice: Number(promotionPrice),

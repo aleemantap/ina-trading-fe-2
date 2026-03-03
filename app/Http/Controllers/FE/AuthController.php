@@ -84,4 +84,62 @@ class AuthController extends Controller
         session()->flush();
         return redirect('/login');
     }
+
+    public function register(){
+       return view('auth.register');  
+    }
+
+    public function submitRegister(Request $request)
+    {
+        // VALIDASI
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|max:255',
+            'mobile'   => 'required|string|max:20',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        try {
+
+            $response = Http::withHeaders([
+                'Content-Type'     => 'application/json',
+                'Authorization'    => 'Basic ' . base64_encode($request->username . ':' . $request->password),
+                'Reference-Number' => 'REF' . now()->format('YmdHis'),
+                'Channel-Id'       => 'WEB',
+                'Origin'           => 'local',
+                'Request-Time'     => now()->toISOString(), 
+
+                
+            ])->post(config('services.api.host') . '/seller/register', [
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'mobile'   => $request->mobile,
+                'password' => $request->password,
+            ]);
+            //
+           /** @var Response $response */
+            $result = $response->json();
+
+            // Cek responseCode dari API
+            if (isset($result['responseCode']) && $result['responseCode'] === '0000') {
+
+                return redirect()
+                    ->route('login')
+                    ->with('success', 'Register berhasil. Silakan login.');
+            }
+
+            //  Jika responseCode bukan 0000
+            return back()->withErrors([
+                'api_error' => $result['responseDesc'] ?? 'Register gagal.'
+            ])->withInput();
+
+        } catch (\Exception $e) {
+
+            Log::error('Register API Error: ' . $e->getMessage());
+
+            return back()->withErrors([
+                'api_error' => 'Terjadi kesalahan pada server.'
+            ])->withInput();
+        }
+    }
 }

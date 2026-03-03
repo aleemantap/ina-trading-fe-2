@@ -31,18 +31,30 @@ export default function Step3() {
             $panel.find("#ModelName").val(model.name || "");
             $panel.find("#Sku").val(model.sku || "");
 
-            $panel.find("#Price").val(model.price || "");
-            $panel.find("#Currency").val(model.currency || "IDR");
+           
+            // console.log("kaprok", model.isMeasurement);
+
+            let hasMeasurement = model.isMeasurement;
+
+            $panel.find("#measureYes").prop("checked", hasMeasurement);
+            $panel.find("#measureNo").prop("checked", !hasMeasurement);
 
             // =============================
             // DIMENSION
             // =============================
+            //Measurement
 
+            //console.log("model.measurementType", model.measurementType);
+            $panel.find("#MeasurementName").val(model.measurementType || "");
+            $panel.find("#MeasurementCountingUnit").val(model.MeasurementCountingUnit || "");
+
+            
             $panel.find("#DimensionsL").val(model.length || "");
             $panel.find("#DimensionsW").val(model.width || "");
             $panel.find("#DimensionsH").val(model.height || "");
             $panel.find("#DimensionType").val(model.dimensionType || "CM");
-
+            $panel.find("#Price").val(model.price || "");
+            $panel.find("#Currency").val(model.currency || "IDR");
             $panel.find("#Weight").val(model.weight || "");
             $panel
                 .find("#WeightType")
@@ -51,11 +63,11 @@ export default function Step3() {
             // =============================
             // IMAGE PREVIEW
             // =============================
-
-            if (model.image) {
+          
+            if (model.imageId) {
                 $panel
                     .find(".image-preview")
-                    .attr("src", model.image)
+                    .attr("src", model.imageId)
                     .removeClass("d-none");
 
                 $panel.find(".image-placeholder").addClass("d-none");
@@ -65,16 +77,16 @@ export default function Step3() {
             // =============================
             // WAREHOUSE
             // =============================
-
-            if (model.wareHouses && model.wareHouses.length) {
+            //console.log("s", model);
+            if (model.warehouses && model.warehouses.length) {
                 const $warehouseWrapper = $panel.find("#warehouse-wrapper");
                 const $firstWarehouseRow = $warehouseWrapper
                     .find(".warehouse-row")
                     .first();
 
-                model.wareHouses.forEach((wh, wIndex) => {
+                model.warehouses.forEach((wh, wIndex) => {
                     let $row;
-
+                  
                     if (wIndex === 0) {
                         $row = $firstWarehouseRow;
                     } else {
@@ -93,6 +105,27 @@ export default function Step3() {
                     }
                 });
             }
+
+           
+            let promo = model.isConfigurePromotionPrice;
+
+            $panel.find("#promoYes").prop("checked", promo);
+            $panel.find("#promoNo").prop("checked", !promo);
+
+            
+            $panel.find("#promotionCurrency").val(model.promotionCurrency);
+            $panel.find("#promotionPrice").val(model.promotionPrice);
+            $panel.find("#promotionStartDate").val(model.promotionStartDate);
+            $panel.find("#promotionEndDate").val(model.promotionEndDate);
+
+            // packaging information
+            $panel.find("#packagingWeight").val(model.packagingWeight);
+            $panel.find("#packagingWeightType").val(model.packagingWeightType);
+            $panel.find("#packagingLength").val(model.packagingLength);
+            $panel.find("#packagingWidth").val(model.packagingWidth);
+            $panel.find("#packagingHeight").val(model.packagingHeight);
+            $panel.find("#packagingDimensionType").val(model.packagingDimensionType);
+           
         });
 
         // penting setelah clone

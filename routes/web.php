@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::middleware('api.guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'submitRegister'])->name('register.submit');
 });
 Route::middleware('api.auth')->group(function () {
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');

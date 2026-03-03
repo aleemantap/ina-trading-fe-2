@@ -37,7 +37,7 @@
                     <i class="bi bi-info-circle"></i> Model Mandatory Info
                 </div>
                 {{-- <div id="panel-model-wrapper" class="p-3"> --}}
-                    <div class="card-body ">
+                    <div class="card-body">
                         <div class="row g-4">
                             {{-- LEFT --}}
                             <div class="col-md-7">
