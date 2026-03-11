@@ -14,10 +14,10 @@ window.bootstrap = bootstrap;
 //     fileId: null,
 // };
 window.uploadState = {
-    "exportDocEligible": {
-        "file": null,
-        "fileId": null,
-    },
+    // "exportDocEligible": {
+    //     "file": null,
+    //     "fileId": null,
+    // },
     "documentRegulation": {
         "file": null,
         "fileId": null,
@@ -30,7 +30,8 @@ window.uploadState = {
     //         "sequence": null, // ← URUTAN (1,2,3,...)
     //     },
     // ],
-  
+     
+     "productFiles":[],  
      "primaryProductImages": [],
      imageProductModelMeasure:[]
 };
@@ -44,6 +45,8 @@ import "../css/custom.css";
 // Plugin jQuery
 import "datatables.net-bs5";
 import "./helpers/utils";
+// import "./helpers/helpers";
+
 // Product scripts
 import "./product/index";
 

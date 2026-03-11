@@ -18,7 +18,7 @@
        
         <div id="upload-section" class="ps-3">
           
-            <input type="file" id="export-upload"  data-upload="exportDocEligible" class="d-none">
+            <input type="file" id="export-upload"  data-upload="exportDocEligible" class="d-none" multiple>
 
             <button type="button" id="btn-upload"
                 class="btn btn-outline-secondary btn-sm">

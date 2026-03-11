@@ -13,6 +13,7 @@ const api = axios.create({
     },
 });
 
+
 // =====================
 // RETRY CONFIG
 // =====================
@@ -39,47 +40,6 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// =====================
-// RESPONSE INTERCEPTOR
-// =====================
-// api.interceptors.response.use(
-//     (response) => response.data, //  AUTO JSON
-//     async (error) => {
-//         // Timeout / Network error
-//         if (!error.response) {
-//             console.error("Network / Timeout Error:", error.message);
-
-//             alert("Server tidak merespon. Silakan coba lagi.");
-//             return;
-//         }
-
-//         // Error dari server (4xx / 5xx)
-//         console.error("API Error:", error.response.data);
-
-//         alert(error.response.data.message || "Terjadi kesalahan");
-
-//         const status = error.response?.status;
-
-//         if (status === 401 || status === 403) {
-//             await axios.post("/force-logout", {
-//                 _token: window.App.csrf,
-//             });
-
-//             alert("Session anda habis. Silakan login kembali.");
-//             window.location.href = "/login";
-//             return;
-//         }
-
-//         if (error.response?.data.responseCode == "999999") {
-//             alert(error.response?.data.responseDesc);
-//             return;
-//         }
-//         //  console.log("error api", error.response);
-
-//         //lert("Terjadi kesalahan. Mungkin Perlu Logout Dan Login Kembali");
-//         return Promise.reject(error);
-//     }
-// );
 api.interceptors.response.use(
     (response) => response.data,
     async (error) => {
@@ -127,7 +87,6 @@ export default api;
 //     price: price,
 // });
 
-// api.put(`/products/${id}`, payload);
 
 
 // api.delete(`/products/${id}`);

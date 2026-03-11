@@ -116,81 +116,290 @@
                 </div>
             </div>
 
+           
+
         </div>
     </div>
 
 
     {{-- PRODUCT MODELS --}}
-    <div class="card shadow-sm mt-4">
-        <div class="card-header fw-semibold">Product Models</div>
-        <div class="card-body">
+    <div class="card shadow-sm mt-4 mb-4">
+    <div class="card-header fw-semibold">Product Models</div>
 
-            @foreach($product['productModels'] ?? [] as $model)
+    <div class="card-body">
 
-                <div class="border rounded p-3 mb-4">
+        @forelse($product['productModels'] ?? [] as $model)
 
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0">{{ $model['name'] ?? '-' }}</h5>
-                        <span class="badge bg-dark">{{ $model['sku'] ?? '-' }}</span>
-                    </div>
+        <div class="border rounded p-3 mb-4">
 
-                    @if(!empty($model['imageId']))
-                        <img src="{{ $model['imageId'] }}" 
-                             class="img-thumbnail mb-3" 
-                             style="max-width:200px;">
+            <div class="mb-2 fw-semibold text-primary">
+                {{ $model['name'] }} (SKU: {{ $model['sku'] }})
+            </div>
+
+            <table class="table table-sm table-bordered align-middle mb-3">
+                <tbody>
+
+                    <tr>
+                        <th width="25%">Price</th>
+                        <td>{{ $model['currency'] }} {{ number_format($model['price']) }}</td>
+
+                        <th width="25%">Promotion Price</th>
+                        <td>
+                            @if($model['isConfigurePromotionPrice'])
+                                {{ $model['promotionCurrency'] }} {{ number_format($model['promotionPrice']) }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Weight</th>
+                        <td>{{ $model['weight'] }} {{ $model['weightType'] }}</td>
+
+                        <th>Dimension</th>
+                        <td>
+                            {{ $model['length'] }} x
+                            {{ $model['width'] }} x
+                            {{ $model['height'] }}
+                            {{ $model['dimensionType'] }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Packaging Weight</th>
+                        <td>{{ $model['packagingWeight'] }} {{ $model['packagingWeightType'] }}</td>
+
+                        <th>Packaging Dimension</th>
+                        <td>
+                            {{ $model['packagingLength'] }} x
+                            {{ $model['packagingWidth'] }} x
+                            {{ $model['packagingHeight'] }}
+                            {{ $model['packagingDimensionType'] }}
+                        </td>
+                    </tr>
+
+                    @if($model['isConfigurePromotionPrice'])
+                    <tr>
+                        <th>Promotion Period</th>
+                        <td colspan="3">
+                            {{ $model['promotionStartDate'] }}
+                            -
+                            {{ $model['promotionEndDate'] }}
+                        </td>
+                    </tr>
                     @endif
 
-                    @foreach($model['productMeasurements'] ?? [] as $measure)
+                </tbody>
+            </table>
 
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Color</th>
-                                        <th>Price</th>
-                                        <th>Weight</th>
-                                        <th>Dimension</th>
-                                        <th>Stock</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{ $measure['measurementValue'] ?? '-' }}</td>
-                                        <td>
-                                            {{ $measure['currency'] ?? '' }}
-                                            {{ number_format($measure['price'] ?? 0) }}
-                                        </td>
-                                        <td>
-                                            {{ $measure['weight'] ?? '-' }}
-                                            {{ $measure['weightType'] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $measure['length'] ?? '-' }} x
-                                            {{ $measure['width'] ?? '-' }} x
-                                            {{ $measure['height'] ?? '-' }}
-                                            {{ $measure['dimensionType'] ?? '' }}
-                                        </td>
-                                        <td>
-                                            @foreach($measure['warehouses'] ?? [] as $wh)
-                                                <div>
-                                                    {{ $wh['city'] ?? '-' }} :
-                                                    <strong>{{ $wh['stock'] ?? 0 }}</strong>
-                                                </div>
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            {{-- Warehouse Section --}}
+            <div class="fw-semibold mb-2">Warehouse</div>
 
-                    @endforeach
+            <table class="table table-sm table-striped table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Country</th>
+                        <th>Province</th>
+                        <th>City</th>
+                        <th>Address</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
 
-                </div>
+                <tbody>
 
-            @endforeach
+                @forelse($model['warehouses'] ?? [] as $warehouse)
 
+                    <tr>
+                        <td>{{ $warehouse['country'] }}</td>
+                        <td>{{ $warehouse['province'] }}</td>
+                        <td>{{ $warehouse['city'] }}</td>
+                        <td>{{ $warehouse['address'] }}</td>
+                        <td class="fw-semibold">{{ $warehouse['stock'] }}</td>
+                    </tr>
+
+                @empty
+
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
+                            No warehouse data
+                        </td>
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+            </table>
+
+        </div>
+
+        @empty
+
+        <div class="text-muted text-center">
+            No product models
+        </div>
+
+        @endforelse
+
+    </div>
+</div>
+   
+
+    {{-- document --}}
+    <div class="card shadow-sm mt-4 mb-4">
+        <div class="card-header fw-semibold">Documents</div>
+        <div class="card-body">
+     
+                <ul class="list-group">
+                    @forelse($product['productFiles'] ?? [] as $file)
+
+                        @if(!empty($file['fileId']))
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                            <span>📄 {{ basename(parse_url($file['fileId'], PHP_URL_PATH)) }}</span>
+
+                            <div>
+                                <a href="{{ $file['fileId'] }}"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-primary">
+                                Download
+                                </a>
+
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-primary view-document-btn"
+                                        data-pdf-url="{{ $file['fileId'] }}">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
+                        </li>
+                        @endif
+
+                    @empty
+                        {{-- tidak menampilkan apa apa --}}
+                    @endforelse
+                </ul>
         </div>
     </div>
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="documentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-file-pdf"></i> Document Preview
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe id="pdfViewer" src="" width="100%" height="600px" style="border: none;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" id="downloadLink" target="_blank" class="btn btn-primary">
+                    <i class="bi bi-download"></i> Download
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+
+
+
+
+@push('scripts')
+<script>
+
+
+// document.addEventListener("click", function(e){
+
+//     const btn = e.target.closest(".view-document-btn");
+//     if(!btn) return;
+
+//     const pdfUrl = btn.dataset.pdfUrl;
+
+//     const pdfViewer = document.getElementById('pdfViewer');
+//     const downloadLink = document.getElementById('downloadLink');
+
+//     if (pdfViewer && pdfUrl) {
+//         pdfViewer.src = pdfUrl + '#toolbar=1';
+//     }
+
+//     if (downloadLink && pdfUrl) {
+//         downloadLink.href = pdfUrl;
+//     }
+
+//     const modal = new bootstrap.Modal(document.getElementById('documentModal'));
+//     modal.show();
+
+// });
+
+// document.addEventListener("click", function(e){
+
+//     const btn = e.target.closest(".view-document-btn");
+//     if(!btn) return;
+
+//     const pdfUrl = btn.dataset.pdfUrl;
+
+//     const pdfViewer = document.getElementById('pdfViewer');
+//     const downloadLink = document.getElementById('downloadLink');
+
+//     if (pdfViewer && pdfUrl) {
+
+//         const viewerUrl =
+//         "https://docs.google.com/gview?embedded=1&url=" +
+//         encodeURIComponent(pdfUrl);
+
+//         // pdfViewer.src = viewerUrl;
+//         pdfViewer.src = "/pdf-viewer?url=" + encodeURIComponent(pdfUrl);
+//     }
+
+//     if (downloadLink && pdfUrl) {
+//         downloadLink.href = pdfUrl;
+//     }
+
+//     const modal = new bootstrap.Modal(
+//         document.getElementById('documentModal')
+//     );
+
+//     modal.show();
+
+// });
+
+document.addEventListener("click", function(e){
+
+    const btn = e.target.closest(".view-document-btn");
+    if(!btn) return;
+
+    const pdfUrl = btn.dataset.pdfUrl;
+
+    const pdfViewer = document.getElementById("pdfViewer");
+    const downloadLink = document.getElementById("downloadLink");
+
+    if (pdfViewer && pdfUrl) {
+
+        const proxyUrl = "/pdf-viewer?url=" + encodeURIComponent(pdfUrl);
+
+        // tampilkan PDF di iframe melalui proxy Laravel
+        pdfViewer.src = proxyUrl;
+    }
+
+    if (downloadLink && pdfUrl) {
+        // tombol download tetap ke API asli
+        downloadLink.href = pdfUrl;
+    }
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("documentModal")
+    );
+
+    modal.show();
+
+});
+</script>
+@endpush

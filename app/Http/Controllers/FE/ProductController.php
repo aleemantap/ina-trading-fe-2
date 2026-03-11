@@ -51,6 +51,55 @@ class ProductController extends Controller
 
         try {
 
+            // $response = $productApi->fetchProductById($id);
+            // $product = $response['data'] ?? null;
+
+            $response = $productApi->fetchProductByIdReview($id);
+            $product = $response['data'] ?? null;
+
+            // if($product)
+            // {
+            //     return view('pages.product.detail', compact('product'));
+            // }
+            // else if($product2)
+            // {
+            //     $product = $product2;
+            //     return view('pages.product.detail', compact('product'));
+            // }
+            // else
+            // {
+            //      return redirect()
+            //         ->route('list.product')
+            //         ->with('error', 'Product tidak ditemukan.');
+            // }
+
+            if (!$product) {
+                return redirect()
+                    ->route('list.product')
+                    ->with('error', 'Product tidak ditemukan !.');
+            }
+            return view('pages.product.detail', compact('product'));
+
+        } catch (\Throwable $e) {
+
+            Log::error('Failed to fetch product detail', [
+                'product_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()
+                ->route('list.product')
+                ->with('error', 'Product tidak ditemukan atau gagal dimuat.');
+        }
+    }
+
+
+    public function detailX(Request $request, ProductApiService $productApi)
+    {
+        $id = $request->id;
+
+        try {
+
             $response = $productApi->fetchProductById($id);
             $product = $response['data'] ?? null;
 
@@ -147,12 +196,12 @@ class ProductController extends Controller
 
             if($product)
             {
-                return view('pages.product.edit', compact('product'));
+                return view('pages.product.edit', compact('product', 'id'));
             }
             else if($product2)
             {
                 $product = $product2;
-                return view('pages.product.edit', compact('product'));
+                return view('pages.product.edit', compact('product', 'id'));
             }
             else
             {

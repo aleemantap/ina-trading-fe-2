@@ -4,8 +4,6 @@
     <input type="text" id="productName" class="form-control" maxlength="150" style="padding-right: 60px;">
     <small class="text-muted position-absolute" style="right: 10px; top: 70%; transform: translateY(-50%);" id="productNameCount">0/150</small>
 </div>
-
-
 {{-- Pre Order --}}
 <div class="mb-3 col-md-8">
 
@@ -117,62 +115,4 @@
             <button type="button" id="addMoreImages" class="btn-add-more1">Add More +</button>
         </div>
     </div>
-</div> 
-{{-- Multi Image Upload Bootstrap 5 --}}
-{{-- <div class="mb-3 col-md-8">
-
-    <div id="multiImageUpload" class="d-flex flex-column">
-
-        <div class="d-flex mb-2 gap-2">
-
-          
-            <div id="bigThumb"
-                 class="flex-fill border rounded bg-light position-relative
-                        d-flex align-items-center justify-content-center"
-                 style="height:300px; cursor:pointer;">
-
-               
-                <div class="position-absolute top-0 start-0 m-2 small text-muted fw-semibold">
-                    <span class="text-danger">*</span> Primary Product Images
-                </div>
-
-             
-                <div class="text-muted fs-1">+</div>
-            </div>
-
-          
-            <div class="d-flex flex-column gap-2" style="width:100px;">
-                <div class="smallThumb border rounded bg-light flex-fill
-                            d-flex align-items-center justify-content-center"
-                     style="cursor:pointer;">+</div>
-
-                <div class="smallThumb border rounded bg-light flex-fill
-                            d-flex align-items-center justify-content-center"
-                     style="cursor:pointer;">+</div>
-
-                <div class="smallThumb border rounded bg-light flex-fill
-                            d-flex align-items-center justify-content-center"
-                     style="cursor:pointer;">+</div>
-            </div>
-
-        </div>
-
-       
-        <div id="extraThumbs" class="d-flex flex-wrap gap-2"></div>
-
-      
-        <input type="file"
-               id="imageInput"
-               accept="image/*"
-               multiple
-               class="d-none">
-
-      
-        <div class="mt-2">
-            <button type="button" id="addMoreImages" class="btn-add-more1">
-                Add More +
-            </button>
-        </div>
-
-    </div>
-</div> --}}
+</div>

@@ -18,3 +18,13 @@
 .border-ina-red {
     border-color: #BE0000 !important;
 }
+
+/* css buat measurement pada modul prdduct post */
+.panel-toggle-header2 {
+    cursor: pointer;
+    user-select: none;
+}
+
+.panel-toggle-header2:hover {
+    opacity: 0.8;
+}

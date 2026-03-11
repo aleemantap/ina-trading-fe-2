@@ -4,11 +4,12 @@ import Step2 from "./step2";
 import Step3 from "./step3";
 import Step4 from "./step4";
 import Step5 from "./step5";
+// import DetailView from "./detailView";
 
 $(function () {
 
      const page = document.body.dataset.page;
-
+     //DetailView();
     //  console.log("Current page:", page);
 
      if (page === "product-form") {
@@ -17,6 +18,7 @@ $(function () {
          Step3();
          Step4();
          Step5();
+        
      }
 
 

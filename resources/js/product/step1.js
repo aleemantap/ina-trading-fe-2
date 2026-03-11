@@ -4,13 +4,12 @@ import { apiGet } from "@/helpers/apiService";
 
 
 export default function Step1() {
- 
+   
     const appData = window.APP_DATA || {};
     let currentStep = 1;
     const totalSteps = 5;
     loadMainCategories();
 
-    
     function showStep(step) {
         $(".step").removeClass("active");
         $(".step-" + step).addClass("active");
@@ -25,7 +24,7 @@ export default function Step1() {
         // ===== STEP 1 =====
         if (step === 1) {
             $("#pageTitle").text(
-                "Hello, " + (window.AUTH_USER?.name ?? "PT Contoh Seller")
+                "Hello, " + (window.AUTH_USER?.name ?? "PT Contoh Seller"),
             );
             $("#pageBreadcrumb").addClass("d-none");
 
@@ -99,8 +98,6 @@ export default function Step1() {
         }
     }
 
-
-
     function validateStep(step) {
         let valid = true;
         $(".step-" + step + " .required").each(function () {
@@ -136,13 +133,11 @@ export default function Step1() {
     });
     // INIT — INI PENTING
     showStep(1);
-   
-   
+
     $("#mainCategory").on("change", function () {
         const categoryId = $(this).val();
         loadSubCategories(categoryId);
     });
-
 
     function loadMainCategories() {
         const select = $("#mainCategory");
@@ -155,35 +150,32 @@ export default function Step1() {
             .then((res) => {
                 select.empty();
                 select.append(
-                    '<option value="">List of Main category</option>'
+                    '<option value="">List of Main category</option>',
                 );
 
                 if (res.responseCode !== "0000") return;
 
                 res.rows.forEach((item) => {
                     select.append(
-                        `<option value="${item.id}">${item.name}</option>`
+                        `<option value="${item.id}">${item.name}</option>`,
                     );
                 });
 
                 select.prop("disabled", false);
 
-              
                 if (appData.mode === "edit" && appData.product) {
-                    //console.log("TES=",appData.product)
+                    // console.log("TES=", appData.id);
                     setEditCategory(appData.product);
                 }
-
             })
             .catch(() => {
                 // optional, interceptor sudah handle auth error
                 select.html(
-                    '<option value="">Failed to load category</option>'
+                    '<option value="">Failed to load category</option>',
                 );
             });
     }
 
-   
     async function setEditCategory(product) {
         // if (!product?.subCategory?.length) return;
         // console.log("product.subCategory", product);

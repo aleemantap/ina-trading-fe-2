@@ -70,18 +70,21 @@ Route::middleware('api.auth')->group(function () {
     
 });
 
-// Route::get('/debug-env', function () {
-//     dd(env('API_HOST'));
-// });
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
-// Route::get('/debug-config', function () {
-//     dd(config('services.api.host'));
-// });
+Route::get('/pdf-viewer', function (Request $request) {
 
-// Route::get('/debug-env2', function () {
-//     dd(
-//         file_exists(base_path('.env')),
-//         env('API_URL'),
-//         config('services.api.host')
-//     );
-// });
+    $url = $request->query('url');
+
+    if (!$url) {
+        abort(404);
+    }
+
+    $response = Http::get($url);
+
+    return response($response->body(), 200)
+        ->header('Content-Type', 'application/pdf')
+        ->header('Content-Disposition', 'inline');
+
+});

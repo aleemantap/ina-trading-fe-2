@@ -7,14 +7,7 @@
     </h2>
     {{-- BREADCRUMB --}}
     <nav aria-label="breadcrumb" id="pageBreadcrumb" class="d-none" style="margin-top:-15px;">
-        {{-- <ol class="breadcrumb mb-3">
-            <li class="breadcrumb-item">
-                <span class="text-muted">Post Product</span>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Input Product Detail
-            </li>
-        </ol> --}}
+      
     </nav>
     {{-- STEP COUNTER --}}
     <div class="mb-3 text-muted">

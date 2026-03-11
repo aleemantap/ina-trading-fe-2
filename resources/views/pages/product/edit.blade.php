@@ -7,7 +7,8 @@
     window.APP_DATA = {
         page: "product-form",
         mode: "edit",
-        product: @json($product ?? null)
+        product: @json($product ?? null),
+        id: @json($id ?? null)
     };
 </script>
 @endpush
