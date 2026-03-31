@@ -8,7 +8,7 @@ export default function Step4() {
         const categoryInformations = product.categoryInformations;
         const warrantyInformation = product.warrantyInformation;
         const complianceInformation = product.complianceInformation;
-
+        //   console.log("categoryInformations-", categoryInformations);
         // ====== General Information ====
         if (!productInformations || !Array.isArray(productInformations)) {
             console.error("Data productInformations tidak valid");
@@ -33,17 +33,17 @@ export default function Step4() {
         });
 
         // ====== Category Information =========
-
-        categoryInformations.forEach((item) => {
-            const input = document.querySelector(
-                `input[data-param="${item.paramName}"]`,
-            );
-
-            if (input) {
-                input.value = item.paramValue;
-            }
+        categoryInformations.forEach((item,index) => {
+           $("#box-category-information").append(`
+                <div class="row mb-3">
+                    <label class="col-md-3 col-form-label">${item.paramName}</label>
+                    <div class="col-md-9">
+                        <input type="text" id="prm_${index}" class="form-control" value="${item.paramValue}" data-param="${item.paramName}">
+                    </div>
+                </div>
+            `);
+                
         });
-
         //======= Compliance Information ========
 
         //Safety Warning
@@ -79,12 +79,12 @@ export default function Step4() {
         const previewContainer = document.getElementById("dg-preview");
 
         if (complianceInformation.fileId && previewContainer) {
-           const fileUrl = complianceInformation.fileId;
-           const extension = fileUrl.split(".").pop().toLowerCase();
-           const imageExtensions = ["jpg", "jpeg", "png", "gif", "webp"];
+            const fileUrl = complianceInformation.fileId;
+            const extension = fileUrl.split(".").pop().toLowerCase();
+            const imageExtensions = ["jpg", "jpeg", "png", "gif", "webp"];
 
-           if (imageExtensions.includes(extension)) {
-               previewContainer.innerHTML = `
+            if (imageExtensions.includes(extension)) {
+                previewContainer.innerHTML = `
             <div class="mt-2" id="preview-wrapper">
                 <img src="${fileUrl}" 
                      alt="Document Preview"
@@ -98,8 +98,8 @@ export default function Step4() {
                 </div>
             </div>
         `;
-           } else {
-               previewContainer.innerHTML = `
+            } else {
+                previewContainer.innerHTML = `
             <div class="mt-2" id="preview-wrapper">
                 <a href="${fileUrl}" target="_blank">
                     ${fileUrl.split("/").pop()}
@@ -111,22 +111,22 @@ export default function Step4() {
                 </button>
             </div>
         `;
-           }
+            }
 
-           // Event Listener pakai ID
-           const removeBtn = document.getElementById("btn-remove-preview");
-           if (removeBtn) {
-               removeBtn.addEventListener("click", function () {
-                   document.getElementById("preview-wrapper").remove();
+            // Event Listener pakai ID
+            const removeBtn = document.getElementById("btn-remove-preview");
+            if (removeBtn) {
+                removeBtn.addEventListener("click", function () {
+                    document.getElementById("preview-wrapper").remove();
 
-                   // Optional: reset file input
-                   const fileInput = document.getElementById(
-                       "document-regulation-upload",
-                   );
-                   if (fileInput) fileInput.value = "";
-               });
-           }
-       }
+                    // Optional: reset file input
+                    const fileInput = document.getElementById(
+                        "document-regulation-upload",
+                    );
+                    if (fileInput) fileInput.value = "";
+                });
+            }
+        }
 
         // ======= Warranty Information ========
 

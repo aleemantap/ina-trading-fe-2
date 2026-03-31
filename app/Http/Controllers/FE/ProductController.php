@@ -14,7 +14,8 @@ class ProductController extends Controller
 
     public function postProduct()
     {
-        return view('pages.product.postProduct');
+        $id=null;
+        return view('pages.product.postProduct', compact('id'));
     }
 
    

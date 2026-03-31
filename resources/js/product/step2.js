@@ -59,7 +59,7 @@ import $ from "jquery";
      // =====================
      // BASIC INFO
      // =====================
-     // console.log("te", product.productImages);
+
      $("#productName").val(product.name || "");
      $("#productNameCount").text((product.productName?.length || 0) + "/150");
 
@@ -160,12 +160,23 @@ export default function Step2() {
     // EDIT MODE INIT
     // ===============================
 
-    
+    //id="saveToDraft" submitBtn
+    // let kd = $("#saveToDraft").data("id");
+    // let lk = $("#submitBtn").data("id");
+    // console.log("kd-",kd); 
+    // console.log("l-", lk); 
+    // if(kd && lk)
+    // {
+    //     alert("ada")
+    // }
+    // else
+    // {
+    //     alert("tidak ada")
+    // }
 
     const appData = window.APP_DATA || {};
 
     if (appData.mode === "edit" && appData.product) {
-      
         initEditStep2(appData.product);
     }
 
@@ -257,8 +268,6 @@ export default function Step2() {
         handleFiles(this.files);
         $(this).val("");
     });
-
-   
 
     const MAX_IMAGES = 8;
     const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];

@@ -139,6 +139,27 @@ export default function Step1() {
         loadSubCategories(categoryId);
     });
 
+    $("#subCategory").on("change", function () {
+        const selectedOption = $(this).find("option:selected");
+        // Mengambil data attributes (otomatis di-parse oleh jQuery)
+        const attributes = selectedOption.data("attributes"); 
+        $("#box-category-information").empty();
+        let b = ""
+        attributes.forEach((item,index) => {
+            b += `<div class="row mb-3">
+                    <label class="col-md-3 col-form-label">${item.paramName}</label>
+                    <div class="col-md-9">
+                        <input type="text" id="prm_${index}" class="form-control" data-param="${item.paramName}">
+                    </div>
+                 </div>`;
+        });
+        $("#box-category-information").append(b)
+       
+    });
+
+
+    
+
     function loadMainCategories() {
         const select = $("#mainCategory");
 
@@ -146,7 +167,7 @@ export default function Step1() {
         select.empty();
         select.append('<option value="">Loading category...</option>');
 
-        apiGet("/categories")
+        apiGet("/categories?page=1&size=100")
             .then((res) => {
                 select.empty();
                 select.append(
@@ -178,7 +199,7 @@ export default function Step1() {
 
     async function setEditCategory(product) {
         // if (!product?.subCategory?.length) return;
-        // console.log("product.subCategory", product);
+        
         const subCategory = product.subCategory;
         const mainCategoryId = subCategory.category.id;
         const subCategoryId = subCategory.id;
@@ -203,7 +224,9 @@ export default function Step1() {
         }
 
         try {
-            const res = await apiGet(`/sub/${categoryId}/categories`);
+            const res = await apiGet(
+                `/sub/${categoryId}/categories?page=1&size=100`,
+            );
 
             subCategory.empty();
             subCategory.append('<option value="">Sub category</option>');
@@ -212,7 +235,7 @@ export default function Step1() {
 
             res.rows.forEach((item) => {
                 subCategory.append(
-                    `<option value="${item.id}">${item.name}</option>`,
+                    `<option data-attributes='${JSON.stringify(item.subCategoryAttributes).replace(/'/g, "&apos;")}' value="${item.id}">${item.name}</option>`,
                 );
             });
 

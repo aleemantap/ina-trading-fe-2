@@ -44,32 +44,35 @@
                 ▾ Category Information
             </h5>
 
-            <div class="row mb-3">
-                <label class="col-md-3 col-form-label" data-param="Cable Length">Cable Length</label>
+            <div id="box-category-information">
+            </div>
+
+            {{-- <div class="row mb-3">
+                <label class="col-md-3 col-form-label" id="prm1">Cable Length</label>
                 <div class="col-md-9">
-                    <input type="text" id="CableLength" class="form-control">
+                    <input type="text" id="CableLength" class="form-control" data-param="">
                 </div>
             </div>
             <div class="row mb-3">
-                <label class="col-md-3 col-form-label">Voltage</label>
+                <label class="col-md-3 col-form-label" id="prm2">Voltage</label>
                 <div class="col-md-9">
-                    <input type="text" id="Voltage" class="form-control" data-param="Voltage">
+                    <input type="text" id="Voltage" class="form-control" data-param="">
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-md-3 col-form-label">Data Transfer Rate</label>
+                <label class="col-md-3 col-form-label" id="prm3">Data Transfer Rate</label>
                 <div class="col-md-9">
-                    <input type="text" id="DataTransferRate" class="form-control" data-param="Data Transfer rate">
+                    <input type="text" id="DataTransferRate" class="form-control" data-param="">
                 </div>
             </div>
 
             <div class="row">
-                <label class="col-md-3 col-form-label">Display Size</label>
+                <label class="col-md-3 col-form-label" id="prm4">Display Size</label>
                 <div class="col-md-9">
-                    <input type="text" id="DisplaSize" class="form-control" data-param="Display Size">
+                    <input type="text" id="DisplaSize" class="form-control" data-param="">
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div> 
