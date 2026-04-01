@@ -10,7 +10,7 @@ import api from "@/helpers/api";
 
 export default function ActionFormProduct(data) {
     //submitBtn
-    
+    const appData = window.APP_DATA || {};
     $(document).on("click", "#submitBtn", async function () {
         const $btn = $(this);
         const originalHtml = $btn.html();
@@ -457,7 +457,7 @@ export default function ActionFormProduct(data) {
             // console.log("payload", payload);
             //appData.id (appData.mode == "edit")
             console.log("payload=", payload);
-
+            //alert(appData.mode);
             if (appData.mode == "edit") {
                 const res = await api.put(
                     `/product/draft/${appData.id}`,
@@ -470,26 +470,29 @@ export default function ActionFormProduct(data) {
                     alert("Submit gagal");
                     return;
                 }
-                alert("Update  Draft berhasil");
+                alert("Update   berhasil");
                 $("#stepForm")[0].reset();
                 window.location.href = "/post-product";
             } else {
+                
                 const res = await api.post("/product", payload, {
                     timeout: 60000,
                 });
+                console.log(res);
                 if (res.responseCode !== "0000") {
                     alert("Submit gagal");
                     return;
                 }
-                alert("Save to Draft berhasil");
+                alert("Submit berhasil");
                 $("#stepForm")[0].reset();
                 window.location.href = "/post-product";
             }
         } catch (e) {
             console.error(e);
             console.log(e.responseDesc);
+            console.log(e);
             alert(
-                "Terjadi kesalahan :",
+                "Terjadi kesalahan:",
                 e.responseCode,
                 "-Silahkan Ulangi lagi",
             );
