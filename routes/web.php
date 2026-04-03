@@ -105,18 +105,33 @@ Route::get('/email/verify', function () {
 // })->middleware(['auth', 'signed'])->name('verification.verify');
 
 use Illuminate\Support\Facades\Auth;
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+use App\Models\User;
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     
-    if (!Auth::check()) {
-        return redirect('/login');
+//     if (!Auth::check()) {
+//         return redirect('/login');
+//     }
+
+//     $request->fulfill();
+
+//     return redirect('/dashboard')->with('success', 'Email berhasil diverifikasi!');
+    
+// })->middleware(['signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
+
+    $user = User::findOrFail($id);
+
+    // login otomatis
+    Auth::login($user);
+
+    // tandai verified
+    if (!$user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
     }
 
-    $request->fulfill();
-
     return redirect('/dashboard')->with('success', 'Email berhasil diverifikasi!');
-    
-})->middleware(['signed'])->name('verification.verify');
 
+})->middleware(['signed'])->name('verification.verify');
 
 // kirim ulang email
 Route::post('/email/verification-notification', function (Request $request) {
