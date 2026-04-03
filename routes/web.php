@@ -7,6 +7,9 @@ use App\Http\Controllers\FE\ProductController;
 use App\Http\Controllers\FE\OrdersController;
 use App\Http\Controllers\FE\ProfileController;
 use App\Http\Controllers\FE\IncomeController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 Route::get('/', function () {
@@ -70,8 +73,6 @@ Route::middleware('api.auth')->group(function () {
     
 });
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 Route::get('/pdf-viewer', function (Request $request) {
 
@@ -87,4 +88,51 @@ Route::get('/pdf-viewer', function (Request $request) {
         ->header('Content-Type', 'application/pdf')
         ->header('Content-Disposition', 'inline');
 
+});
+
+
+
+// halaman notice
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// klik link email
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//     $request->fulfill();
+
+//     return redirect('/dashboard');
+// })->middleware(['auth', 'signed'])->name('verification.verify');
+
+use Illuminate\Support\Facades\Auth;
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    
+    if (!Auth::check()) {
+        return redirect('/login');
+    }
+
+    $request->fulfill();
+
+    return redirect('/dashboard')->with('success', 'Email berhasil diverifikasi!');
+    
+})->middleware(['signed'])->name('verification.verify');
+
+
+// kirim ulang email
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back();
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+
+use Illuminate\Support\Facades\Mail;
+Route::get('/test-email', function () {
+    Mail::raw('Test email dari Laravel', function ($message) {
+        $message->to('aleemantap@gmail.com')
+                ->subject('Test Email');
+    });
+
+    return 'Email terkirim!';
 });

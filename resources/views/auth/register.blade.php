@@ -34,11 +34,11 @@
                 </div>
             @endif
 
-            @if ($errors->has('api_error'))
+            {{-- @if ($errors->has('api_error'))
                 <div class="alert alert-danger">
                     {{ $errors->first('api_error') }}
                 </div>
-            @endif
+            @endif --}}
 
             {{-- REGISTER FORM --}}
             <form method="POST" action="{{ route('register.submit') }}">

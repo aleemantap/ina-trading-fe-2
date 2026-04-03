@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Log;
 // use Illuminate\Http\Client\Response;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -123,9 +125,32 @@ class AuthController extends Controller
             // Cek responseCode dari API
             if (isset($result['responseCode']) && $result['responseCode'] === '0000') {
 
-                return redirect()
+                
+                // start coba2
+                // SIMPAN USER LOKAL
+                $user = User::create([
+                    'name'     => $request->name,
+                    'email'    => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+                // KIRIM EMAIL VERIFIKASI
+                event(new Registered($user));
+
+                // LOGIN USER
+                auth()->login($user);
+
+                // return redirect('/email/verify');
+                return redirect('/email/verify')
+                  ->with('success', 'Registrasi berhasil! Silakan cek email untuk verifikasi.');
+
+                // end coba2
+                
+
+
+                /*return redirect()
                     ->route('login')
-                    ->with('success', 'Register berhasil. Silakan login.');
+                    ->with('success', 'Register berhasil. Silakan login.');*/
             }
 
             //  Jika responseCode bukan 0000
